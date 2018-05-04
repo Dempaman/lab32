@@ -1,0 +1,21 @@
+.loginDiv{
+  display: flex;
+  justify-content: center;
+}
+
+.loginStyle{
+  background-color: #5cb85c;
+  border: none;
+  width: 300px;
+  height: 30px;;
+  color: #fff;
+  font-size: 0.9em;
+  font-family: Arial;
+  font-weight: bold;
+  margin: 20px;
+}
+
+.loginStyle:hover{
+  background-color: #6acc6a;
+  cursor: pointer;
+}
