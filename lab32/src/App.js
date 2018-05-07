@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import firebase, { auth, provider } from './firebase.js';
 
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -9,7 +10,6 @@ class App extends Component {
 
     this.state = {
       user: null,
-      uid: []
     }
 
     this.login = this.login.bind(this);
@@ -30,45 +30,30 @@ class App extends Component {
     .then((result) => {
     const user = result.user;
     this.setState({user});
-    console.log('this.state.user', this.state.user)
+    console.log('Välkommen: ', this.state.user.displayName)
     this.addUserInfoToFirebase();
     });
   }
 
 
-  addUserInfoToFirebase(){
-    let db = firebase.database();
-    let stateUid =this.state.uid;
-
-    db.ref('users/').on('child_added', function(snapshot) {
-      let val = snapshot.val()
-      let valuid = val.uid;
-
-      this.setState({uid: valuid})
-      //console.log(this.state.uid)
-    }.bind(this));//Binder "this" till firebase funktionen
-
-    for (let i=0; i < stateUid.length; i++){
-     console.log("stateUid[i]", stateUid[i]);
-    }
-    if(this.state.user.uid){
-      console.log('this.state.user', this.state.user)
-      /*db.ref('users/').push({
-        'name': this.state.user.displayName,
-        'img': this.state.user.photoURL,
-        'score': 0,
-        'uid': this.state.user.uid,
+  addUserInfoToFirebase(uidUser){
+    firebase.database().ref().child('/users/').once('value').then(function(snapshot) {
+      let listt = [];
+      snapshot.forEach(function(child) {
+        listt.push(child.val().uid);
       });
-      */
-    }
-
-      /*
-
-      this.state.user.uid
-      this.state.user.photoURL
-      this.state.user.displayName
-
-    */
+      if(listt.includes(this.state.user.uid)){
+        console.log("User already in database");
+      }else{
+        console.log("New user - Added to database");
+        firebase.database().ref('users/').push({
+          'name': this.state.user.displayName,
+          'img': this.state.user.photoURL,
+          'score': 0,
+          'uid': this.state.user.uid,
+        });
+      }
+    }.bind(this));
   }
 
   componentDidMount() {
@@ -82,29 +67,21 @@ class App extends Component {
   render() {
     return (
       <div>
-        <div>
+        <div className="containerLoggedIn">
           {this.state.user ?
-            <button onClick={this.logout}>Log Out</button>
-            :
-            <button onClick={this.login}>Log In</button>
-          }
-        </div>
-        <div>
-        {this.state.user ?
-          <div>
-            <div>
+
+            <div className="profileInfo">
+            <button className="buttonLog" onClick={this.logout}>Log Out</button>
               <img src={this.state.user.photoURL} alt="finns ingen bild hehhe"/>
             </div>
-          </div>
-          :
-          <div>
-            <p>You must be logged in to see the potluck list and submit to it.</p>
-          </div>
-        }
-        </div>
-
+            :
+            <div>
+            <button className="buttonLog" onClick={this.login}>Log In</button>
+              <p>You must be logged in to see the potluck list and submit to it.</p>
+            </div>
+          } {/**  Checks if user is logged in or not **/}
+        </div> {/**  End of containerLoggedIn **/}
       </div>
-
     );
   }
 }
