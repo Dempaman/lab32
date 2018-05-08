@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import Nav from './Nav.js';
 import firebase, { auth, provider } from './firebase.js';
 
 
@@ -28,10 +29,10 @@ class App extends Component {
   login() {
     auth.signInWithPopup(provider)
     .then((result) => {
-    const user = result.user;
-    this.setState({user});
-    console.log('Välkommen: ', this.state.user.displayName)
-    this.addUserInfoToFirebase();
+      const user = result.user;
+      this.setState({user});
+      console.log('Välkommen: ', this.state.user.displayName)
+      this.addUserInfoToFirebase();
     });
   }
 
@@ -69,11 +70,7 @@ class App extends Component {
       <div>
         <div className="containerLoggedIn">
           {this.state.user ?
-
-            <div className="profileInfo">
-            <button className="buttonLog" onClick={this.logout}>Log Out</button>
-              <img src={this.state.user.photoURL} alt="finns ingen bild hehhe"/>
-            </div>
+            <Nav src={this.state.user.photoURL} onClick={this.logout}/>
             :
             <div>
             <button className="buttonLog" onClick={this.login}>Log In</button>
