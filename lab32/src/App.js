@@ -33,7 +33,6 @@ class App extends Component {
     .then((result) => {
       const user = result.user;
       this.setState({user});
-      console.log('Välkommen: ', this.state.user.displayName)
       this.addUserInfoToFirebase();
     });
   }
@@ -93,7 +92,8 @@ class App extends Component {
             <Nav
             src={this.state.user.photoURL}
             onClick={this.logout}>
-            {this.state.user.displayName}
+            {this.state.name
+            }
             </Nav>
 
             :
