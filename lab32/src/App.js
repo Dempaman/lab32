@@ -67,8 +67,10 @@ class App extends Component {
         //Takes a snapshot of the database and prints the username if there is someone logged in
         firebase.database().ref().child('/users/' + this.state.user.uid).once('value').then(function(snapshot) {
           let snap = snapshot.val()
-          console.log('Välkommen: ', snap.name)
-          this.setState({name: snap.name})
+          if(snap){
+            console.log('Välkommen: ', snap.name)
+            this.setState({name: snap.name})
+          }
         }.bind(this));
       }
     });
@@ -78,7 +80,7 @@ class App extends Component {
       let snap = snapshot.val()
       console.log('Välkommen: ', snap.name);
       this.setState({name: snap.name  });
-    }.bind(this));
+    }.bind(this))
   }
 
   render() {
