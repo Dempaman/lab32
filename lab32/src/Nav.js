@@ -11,6 +11,7 @@ class Nav extends React.Component{
       <div className="profileInfo">
       <button className="buttonLog" onClick={this.props.onClick}>Log Out</button>
         <img src={this.props.src} alt="finns ingen bild hehhe"/>
+        <div className="userNameStl">{this.props.children}</div>
       </div>
     )
   }
