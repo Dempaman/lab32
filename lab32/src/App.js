@@ -4,6 +4,7 @@ import Nav from './Nav.js';
 import firebase, { auth, provider } from './firebase.js';
 import Profile from './Profile.js'
 import './login.css';
+import Highscore from './Highscore.js'
 
 
 class App extends Component {
@@ -12,7 +13,8 @@ class App extends Component {
     this.state = {
       user: null,
       loggedInUserId: '',
-      name: ''
+      name: '',
+      AllUsers: [],
     }
 
     this.login = this.login.bind(this);
@@ -31,48 +33,6 @@ class App extends Component {
   login() {
     auth.signInWithPopup(provider)
     .then((result) => {
-<<<<<<< HEAD
-    const user = result.user;
-    this.setState({user});
-    this.addUserInfoToFirebase();
-    });
-  }
-
-  addUserInfoToFirebase(){
-    let db = firebase.database();
-
-    db.ref('users/').on('child_added', function(snapshot) {
-      let val = snapshot.val()
-      let valuid = val.uid;
-      let newArray = this.state.uid.slice();
-
-      newArray.push(valuid);
-      this.setState({uid:newArray})
-
-      //console.log("this.state.user.uid -->", this.state.uid)
-
-
-
-      if(valuid.indexOf(this.state.user.uid)){
-      //  console.log("loop?")
-        //this.userInfo();
-        return
-      }
-
-
-    }.bind(this));
-
-  }
-
-  userInfo(){
-    let db = firebase.database();
-    db.ref('users/').push({
-    'name': this.state.user.displayName,
-    'img': this.state.user.photoURL,
-    'score': 0,
-    'uid': this.state.user.uid,
-    });
-=======
       const user = result.user;
       this.setState({user});
       this.addUserInfoToFirebase();
@@ -88,6 +48,8 @@ class App extends Component {
       snapshot.forEach(function(child) {
         listt.push(child.val().uniqueID);
       });
+      console.log("listt ",listt)
+
       if(listt.includes(this.state.user.uid)){
         console.log("User already in database");
       }else{
@@ -100,16 +62,30 @@ class App extends Component {
         });
       }
     }.bind(this));
->>>>>>> ff902e56a68604d7cb50c7974738fecd4268f656
   }
 
+  addUserInfoToState(){
+    firebase.database().ref('/users/').once('value').then(function(snapshot) {
 
+      let users = [];
+      snapshot.forEach(function(child) {
+        users.push(child.val());
+      });
+      this.setState({AllUsers: users});
+      console.log("this.state.AllUsers", this.state.AllUsers)
+
+      }.bind(this));
+  }
 
   componentDidMount() {
     auth.onAuthStateChanged((user) => {
       if (user) {
         this.setState({ user });
         this.setState({loggedInUserId: this.state.user.uid })
+
+        //Add the user names and scores in state
+        this.addUserInfoToState()
+
         //Takes a snapshot of the database and prints the username if there is someone logged in
         firebase.database().ref().child('/users/' + this.state.user.uid).once('value').then(function(snapshot) {
           let snap = snapshot.val()
@@ -127,6 +103,10 @@ class App extends Component {
       console.log('Välkommen: ', snap.name);
       this.setState({name: snap.name  });
     }.bind(this))
+
+    firebase.database().ref('/users/').on('child_changed',function(snapshot) {
+      this.addUserInfoToState()
+    }.bind(this))
   }
 
   render() {
@@ -137,10 +117,8 @@ class App extends Component {
             <Nav
             src={this.state.user.photoURL}
             onClick={this.logout}>
-            {this.state.name
-            }
+            {this.state.name}
             </Nav>
-
             :
             <div>
             <button className="buttonLog" onClick={this.login}>Log In</button>
@@ -149,10 +127,10 @@ class App extends Component {
           } {/**  Checks if user is logged in or not **/}
         </div> {/**  End of containerLoggedIn **/}
         <Profile passUserInfo={this.state.loggedInUserId}/>
+        <Highscore AllUsers={this.state.AllUsers}/>
       </div>
     );
   }
 }
-
 
 export default App;
