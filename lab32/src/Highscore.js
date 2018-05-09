@@ -12,8 +12,8 @@ class Highscore extends Component{
     )
     return(
       <div>
-        <h3>Highscore</h3>
-        <div>{listNames}</div>
+        <h3 className="highscoreTxt">Highscore</h3>
+        <div className="scoreDiv">{listNames}</div>
       </div>
     );
   }

@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
 .navContainer{
-  background-color: green;
   height: 50px;
   width: 100%;
+  font-family: 'Open Sans';
 }

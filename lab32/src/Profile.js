@@ -7,8 +7,11 @@ class Profile extends Component{
     super();
     this.state = {
       username: '',
+      profileImg: '',
+
     }
     this.handleChange = this.handleChange.bind(this);
+    this.handleProfileImgChange = this.handleProfileImgChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -18,14 +21,32 @@ class Profile extends Component{
     });
   }
 
+  handleProfileImgChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  }
+
+  cancelCourse = () => {
+  this.myFormRef.reset();
+  }
+
   //updates the profile name in database
   handleSubmit(event) {
     let db = firebase.database()
     event.preventDefault();
-    db.ref('users/' + this.props.passUserInfo).update({
-      'name': this.state.username,
-    });
-    console.log(this.props.passUserInfo)
+    if(this.state.username.length > 5 || this.state.profileImg.length > 10 ){
+      event.target.reset();
+      db.ref('users/' + this.props.passUserId).update({
+        'name': this.state.username,
+        'img': this.state.profileImg,
+      });
+      console.log(this.props.passUserId)
+      this.setState({username: ''});  //Removes input text after submitted text
+      this.setState({profileImg: ''});
+    }else{
+      console.log("För kort namn")
+    }
   }
 
 
@@ -34,10 +55,17 @@ class Profile extends Component{
       return(
         <form onSubmit={this.handleSubmit}>
           <div className="inputWrap">
-            <div>
-              <input className="inputStl"type="text" name="username" placeholder="change your name" onChange={this.handleChange} value={this.state.username}/ >
-              <button className="subName">Submit</button>
-              {/*<div>{this.props.passUserInfo}</div> //This props value comes from state in App.js*/}
+            <h3>Profile</h3>
+            <div className="inputWrap2">
+              <div className="profileImgWrap">
+                <img src={this.props.passUserImg} alt="Not found"/>
+              </div>
+              <div>{this.props.passUserName}</div>
+              <div>
+                <input className="inputStl" type="text" name="username" placeholder="change your name" onChange={this.handleChange} value={this.state.username}/ >
+                <input className="inputStl" type="text" name="profileImg" placeholder="change your profile image" onChange={this.handleProfileImgChange} value={this.state.profileImg}/ >
+                <button className="subName">Submit</button>
+              </div>
             </div>
           </div>
         </form>

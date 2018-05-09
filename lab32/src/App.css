@@ -1,5 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+body{
+ background-image: linear-gradient(to left top, #cdeaf8, #c6e0f7, #c4d5f4, #c7caee, #cdbde4);
+}
 .containerLoggedIn{
-  background-color: #f8f8f8;
+  -webkit-box-shadow: 2px -1px 121px -25px rgba(0,0,0,0.48);
+  -moz-box-shadow: 2px -1px 121px -25px rgba(0,0,0,0.48);
+  box-shadow: 2px -1px 121px -25px rgba(0,0,0,0.48);
+  background-color: #f8f8f84d;
   height: 75px;
   display: flex;
   flex-direction: row;
@@ -17,17 +24,21 @@
   border-radius: 50%;
   height: 40px;
   width: 40px;
+  object-fit: cover;
+  object-position: center;
 }
 
 .buttonLog{
   color: white;
-outline: none;
-margin-right: 15px;
-border: none;
-border-radius: 5px;
-background-color: #1b90ff;
-width: 100px;
-height: 30px;
+  outline: none;
+  margin-right: 15px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #1b90ff;
+  width: 100px;
+  height: 30px;
+  font-family: 'Open Sans';
 }
 
 .buttonLog:hover{

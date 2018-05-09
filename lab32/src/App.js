@@ -3,7 +3,6 @@ import './App.css';
 import Nav from './Nav.js';
 import firebase, { auth, provider } from './firebase.js';
 import Profile from './Profile.js'
-import './login.css';
 import Highscore from './Highscore.js'
 
 
@@ -14,6 +13,7 @@ class App extends Component {
       user: null,
       loggedInUserId: '',
       name: '',
+      profileImg: '',
       AllUsers: [],
     }
 
@@ -85,6 +85,7 @@ class App extends Component {
           if(snap){
             console.log('Välkommen: ', snap.name)
             this.setState({name: snap.name})
+            this.setState({profileImg: snap.img})
           }
         }.bind(this));
       }
@@ -94,6 +95,7 @@ class App extends Component {
       let snap = snapshot.val()
       console.log('Välkommen: ', snap.name);
       this.setState({name: snap.name  });
+      this.setState({profileImg: snap.img})
     }.bind(this))
 
     firebase.database().ref('/users/').on('child_changed',function(snapshot) { //Listens to the databes and changes the web-data
@@ -107,18 +109,21 @@ class App extends Component {
         <div className="containerLoggedIn">
           {this.state.user ?
             <Nav
-            src={this.state.user.photoURL}
+            src={this.state.profileImg}
             onClick={this.logout}>
             {this.state.name}
             </Nav>
             :
             <div>
             <button className="buttonLog" onClick={this.login}>Log In</button>
-              <p>You must be logged in to see the potluck list and submit to it.</p>
+              {/*<p>You must be logged in to see the potluck list and submit to it.</p>*/}
             </div>
           } {/**  Checks if user is logged in or not **/}
         </div> {/**  End of containerLoggedIn **/}
-        <Profile passUserInfo={this.state.loggedInUserId}/>
+        <Profile
+          passUserImg={this.state.profileImg}
+          passUserName={this.state.name}
+          passUserId={this.state.loggedInUserId}/>
         <Highscore AllUsers={this.state.AllUsers}/>
       </div>
     );
