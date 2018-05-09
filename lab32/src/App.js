@@ -41,9 +41,7 @@ class App extends Component {
 
 
   addUserInfoToFirebase(uidUser){
-
     firebase.database().ref().child('/users/').once('value').then(function(snapshot) {
-
       let listt = [];
       snapshot.forEach(function(child) {
         listt.push(child.val().uniqueID);
@@ -66,14 +64,12 @@ class App extends Component {
 
   addUserInfoToState(){
     firebase.database().ref('/users/').once('value').then(function(snapshot) {
-
       let users = [];
       snapshot.forEach(function(child) {
         users.push(child.val());
       });
       this.setState({AllUsers: users});
       console.log("this.state.AllUsers", this.state.AllUsers)
-
       }.bind(this));
   }
 
@@ -82,12 +78,9 @@ class App extends Component {
       if (user) {
         this.setState({ user });
         this.setState({loggedInUserId: this.state.user.uid })
+        this.addUserInfoToState() //Add the user names and scores in state
 
-        //Add the user names and scores in state
-        this.addUserInfoToState()
-
-        //Takes a snapshot of the database and prints the username if there is someone logged in
-        firebase.database().ref().child('/users/' + this.state.user.uid).once('value').then(function(snapshot) {
+        firebase.database().ref().child('/users/' + this.state.user.uid).once('value').then(function(snapshot) {  //Takes a snapshot of the database and prints the username if there is someone logged in
           let snap = snapshot.val()
           if(snap){
             console.log('Välkommen: ', snap.name)
@@ -97,14 +90,13 @@ class App extends Component {
       }
     });
 
-    //Takes a snapshot of the database if triggered and changes your profile name on the website
-    firebase.database().ref('/users/' + this.state.loggedInUserId).on('child_changed',function(snapshot) {
+    firebase.database().ref('/users/' + this.state.loggedInUserId).on('child_changed',function(snapshot) {//Takes a snapshot of the database if triggered and changes your profile name on the website
       let snap = snapshot.val()
       console.log('Välkommen: ', snap.name);
       this.setState({name: snap.name  });
     }.bind(this))
 
-    firebase.database().ref('/users/').on('child_changed',function(snapshot) {
+    firebase.database().ref('/users/').on('child_changed',function(snapshot) { //Listens to the databes and changes the web-data
       this.addUserInfoToState()
     }.bind(this))
   }
