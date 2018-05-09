@@ -5,8 +5,6 @@ import firebase, { auth, provider } from './firebase.js';
 class App extends Component {
   constructor(props) {
     super(props);
-
-
     this.state = {
       user: null,
       uid: []
@@ -30,46 +28,47 @@ class App extends Component {
     .then((result) => {
     const user = result.user;
     this.setState({user});
-    console.log('this.state.user', this.state.user)
     this.addUserInfoToFirebase();
     });
   }
 
-
   addUserInfoToFirebase(){
     let db = firebase.database();
-    let stateUid =this.state.uid;
 
     db.ref('users/').on('child_added', function(snapshot) {
       let val = snapshot.val()
       let valuid = val.uid;
+      let newArray = this.state.uid.slice();
 
-      this.setState({uid: valuid})
-      //console.log(this.state.uid)
-    }.bind(this));//Binder "this" till firebase funktionen
+      newArray.push(valuid);
+      this.setState({uid:newArray})
 
-    for (let i=0; i < stateUid.length; i++){
-     console.log("stateUid[i]", stateUid[i]);
-    }
-    if(this.state.user.uid){
-      console.log('this.state.user', this.state.user)
-      /*db.ref('users/').push({
-        'name': this.state.user.displayName,
-        'img': this.state.user.photoURL,
-        'score': 0,
-        'uid': this.state.user.uid,
-      });
-      */
-    }
+      //console.log("this.state.user.uid -->", this.state.uid)
 
-      /*
 
-      this.state.user.uid
-      this.state.user.photoURL
-      this.state.user.displayName
 
-    */
+      if(valuid.indexOf(this.state.user.uid)){
+      //  console.log("loop?")
+        //this.userInfo();
+        return
+      }
+
+
+    }.bind(this));
+
   }
+
+  userInfo(){
+    let db = firebase.database();
+    db.ref('users/').push({
+    'name': this.state.user.displayName,
+    'img': this.state.user.photoURL,
+    'score': 0,
+    'uid': this.state.user.uid,
+    });
+  }
+
+
 
   componentDidMount() {
     auth.onAuthStateChanged((user) => {
