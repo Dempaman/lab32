@@ -19,3 +19,9 @@
   background-color: #6acc6a;
   cursor: pointer;
 }
+
+.userNameStl{
+  font-family: arial;
+  width: 100px;
+  text-align: center;
+}

@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import './App.css';
+import Nav from './Nav.js';
 import firebase, { auth, provider } from './firebase.js';
+import Profile from './Profile.js'
+import './login.css';
+
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       user: null,
-      uid: []
+      loggedInUserId: '',
+      name: ''
     }
 
     this.login = this.login.bind(this);
@@ -26,6 +31,7 @@ class App extends Component {
   login() {
     auth.signInWithPopup(provider)
     .then((result) => {
+<<<<<<< HEAD
     const user = result.user;
     this.setState({user});
     this.addUserInfoToFirebase();
@@ -66,6 +72,35 @@ class App extends Component {
     'score': 0,
     'uid': this.state.user.uid,
     });
+=======
+      const user = result.user;
+      this.setState({user});
+      this.addUserInfoToFirebase();
+    });
+  }
+
+
+  addUserInfoToFirebase(uidUser){
+
+    firebase.database().ref().child('/users/').once('value').then(function(snapshot) {
+
+      let listt = [];
+      snapshot.forEach(function(child) {
+        listt.push(child.val().uniqueID);
+      });
+      if(listt.includes(this.state.user.uid)){
+        console.log("User already in database");
+      }else{
+        console.log("New user - Added to database");
+        firebase.database().ref('users/'+ this.state.user.uid).set({
+          'name': this.state.user.displayName,
+          'img': this.state.user.photoURL,
+          'score': 0,
+          'uniqueID': this.state.user.uid,
+        });
+      }
+    }.bind(this));
+>>>>>>> ff902e56a68604d7cb50c7974738fecd4268f656
   }
 
 
@@ -74,36 +109,47 @@ class App extends Component {
     auth.onAuthStateChanged((user) => {
       if (user) {
         this.setState({ user });
+        this.setState({loggedInUserId: this.state.user.uid })
+        //Takes a snapshot of the database and prints the username if there is someone logged in
+        firebase.database().ref().child('/users/' + this.state.user.uid).once('value').then(function(snapshot) {
+          let snap = snapshot.val()
+          if(snap){
+            console.log('Välkommen: ', snap.name)
+            this.setState({name: snap.name})
+          }
+        }.bind(this));
       }
     });
+
+    //Takes a snapshot of the database if triggered and changes your profile name on the website
+    firebase.database().ref('/users/' + this.state.loggedInUserId).on('child_changed',function(snapshot) {
+      let snap = snapshot.val()
+      console.log('Välkommen: ', snap.name);
+      this.setState({name: snap.name  });
+    }.bind(this))
   }
 
   render() {
     return (
       <div>
-        <div>
+        <div className="containerLoggedIn">
           {this.state.user ?
-            <button onClick={this.logout}>Log Out</button>
+            <Nav
+            src={this.state.user.photoURL}
+            onClick={this.logout}>
+            {this.state.name
+            }
+            </Nav>
+
             :
-            <button onClick={this.login}>Log In</button>
-          }
-        </div>
-        <div>
-        {this.state.user ?
-          <div>
             <div>
-              <img src={this.state.user.photoURL} alt="finns ingen bild hehhe"/>
+            <button className="buttonLog" onClick={this.login}>Log In</button>
+              <p>You must be logged in to see the potluck list and submit to it.</p>
             </div>
-          </div>
-          :
-          <div>
-            <p>You must be logged in to see the potluck list and submit to it.</p>
-          </div>
-        }
-        </div>
-
+          } {/**  Checks if user is logged in or not **/}
+        </div> {/**  End of containerLoggedIn **/}
+        <Profile passUserInfo={this.state.loggedInUserId}/>
       </div>
-
     );
   }
 }
