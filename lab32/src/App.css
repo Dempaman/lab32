@@ -1,6 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
-body{
+body, html{
  background-image: linear-gradient(to left top, #cdeaf8, #c6e0f7, #c4d5f4, #c7caee, #cdbde4);
+ background-size: cover;
+ margin: 0;
+ padding: 0;
+ height: 100%;
+ width: 100%;
+}
+#root{
+  height: 100%;
+  width: 100%;
 }
 .containerLoggedIn{
   -webkit-box-shadow: 2px -1px 121px -25px rgba(0,0,0,0.48);
