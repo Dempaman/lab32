@@ -3,8 +3,8 @@ import firebase from './firebase.js';
 import './profile.css'
 
 class Profile extends Component{
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       username: '',
       profileImg: '',
@@ -51,7 +51,7 @@ class Profile extends Component{
 
 
     render(){
-
+      console.log(this.props.passUserId)
       return(
         <form onSubmit={this.handleSubmit}>
           <div className="inputWrap">

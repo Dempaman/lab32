@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Nav from './Nav.js';
 import firebase, { auth, provider } from './firebase.js';
-import Profile from './Profile.js'
-import Highscore from './Highscore.js'
+import Tab from './Tab.js';
 
 
 class App extends Component {
@@ -118,13 +117,14 @@ class App extends Component {
             <button className="buttonLog" onClick={this.login}>Log In</button>
               {/*<p>You must be logged in to see the potluck list and submit to it.</p>*/}
             </div>
-          } {/**  Checks if user is logged in or not **/}
-        </div> {/**  End of containerLoggedIn **/}
-        <Profile
+          }                                                                               {/**  Checks if user is logged in or not **/}
+        </div>                                                                            {/**  End of containerLoggedIn **/}
+        <Tab
           passUserImg={this.state.profileImg}
           passUserName={this.state.name}
-          passUserId={this.state.loggedInUserId}/>
-        <Highscore AllUsers={this.state.AllUsers}/>
+          passUserId={this.state.loggedInUserId}
+          AllUsers={this.state.AllUsers}
+        />
       </div>
     );
   }
