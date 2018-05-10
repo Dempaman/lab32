@@ -5,3 +5,12 @@
   width: 100%;
   font-family: 'Open Sans';
 }
+.loginBtnFix{
+  margin-bottom: 26px;
+}
+
+.userNameStl{
+  margin: 0 0 6px 0;
+  font-family: 'Open Sans';
+  color: #2c2c2c;
+}

@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 body, html{
- background-image: linear-gradient(to left top, #cdeaf8, #c6e0f7, #c4d5f4, #c7caee, #cdbde4);
+ /*background-image: linear-gradient(to left top, #cdeaf8, #c6e0f7, #c4d5f4, #c7caee, #cdbde4);*/
+ background-image: url('./img/wallquiz.jpg');
  background-size: cover;
  margin: 0;
  padding: 0;
@@ -35,16 +36,17 @@ body, html{
   width: 40px;
   object-fit: cover;
   object-position: center;
+  margin: 0 8px 0 0;
 }
 
 .buttonLog{
   color: white;
   outline: none;
-  margin-right: 15px;
-  margin-top: 15px;
+  margin-right: 20px;
+  margin-top: 20px;
   border: none;
   border-radius: 5px;
-  background-color: #1b90ff;
+  background-color: #1c82e2;
   width: 100px;
   height: 30px;
   font-family: 'Open Sans';

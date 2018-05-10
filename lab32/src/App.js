@@ -3,7 +3,7 @@ import './App.css';
 import Nav from './Nav.js';
 import firebase, { auth, provider } from './firebase.js';
 import Tab from './Tab.js';
-
+import LoginModal from './LoginModal.js';
 
 class App extends Component {
   constructor(props) {
@@ -115,16 +115,19 @@ class App extends Component {
             :
             <div>
             <button className="buttonLog" onClick={this.login}>Log In</button>
-              {/*<p>You must be logged in to see the potluck list and submit to it.</p>*/}
             </div>
           }                                                                               {/**  Checks if user is logged in or not **/}
-        </div>                                                                            {/**  End of containerLoggedIn **/}
-        <Tab
-          passUserImg={this.state.profileImg}
-          passUserName={this.state.name}
-          passUserId={this.state.loggedInUserId}
-          AllUsers={this.state.AllUsers}
-        />
+        </div>
+        {this.state.user ?
+          <Tab
+            passUserImg={this.state.profileImg}
+            passUserName={this.state.name}
+            passUserId={this.state.loggedInUserId}
+            AllUsers={this.state.AllUsers}
+            />
+          :
+          <LoginModal />
+        }                                                                            {/**  End of containerLoggedIn **/}
       </div>
     );
   }
