@@ -4,7 +4,7 @@ import './highscore.css'
 
 class Highscore extends Component{
   render(){
-    const listNames = this.props.AllUsers.sort((a, b) => a - b).map(
+    const listNames = this.props.AllUsers.sort((a, b) => b.score - a.score).map(
       u =>  <div className="scoreWrapper" key={u.uniqueID}>
               <div className="userNameInfo">{u.name}</div>
               <div>{u.score}p</div>
