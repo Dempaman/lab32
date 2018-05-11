@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import './highscore.css'
 
-
 class Highscore extends Component{
   render(){
     const listNames = this.props.AllUsers.sort((a, b) => b.score - a.score).map(
