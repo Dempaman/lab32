@@ -75,13 +75,20 @@ class Tab extends Component{
       switch(param) {
         case 'Profile':
           return <Profile
-            passUserImg={this.props.passUserImg}
-            passUserName={this.props.passUserName}
-            passUserId={this.props.passUserId}/>
+                    passUserScore={this.props.passUserScore}
+                    passUserImg={this.props.passUserImg}
+                    passUserName={this.props.passUserName}
+                    passUserId={this.props.passUserId}/>
+
           case 'Highscore':
-          return <Highscore AllUsers={this.props.AllUsers}/>
+          return <Highscore
+                    AllUsers={this.props.AllUsers}/>
+
+          case 'Quiz':
+          return //<Quiz component />
+
         default:
-          return console.log("Här ska sista delen vara");
+          return console.log("Nu var de slut...");
       }
     }
 

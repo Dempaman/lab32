@@ -13,6 +13,7 @@ class App extends Component {
       loggedInUserId: '',
       name: '',
       profileImg: '',
+      userScore: '',
       AllUsers: [],
     }
 
@@ -85,6 +86,7 @@ class App extends Component {
             console.log('Välkommen: ', snap.name)
             this.setState({name: snap.name})
             this.setState({profileImg: snap.img})
+            this.setState({userScore: snap.score})
           }
         }.bind(this));
       }
@@ -95,6 +97,7 @@ class App extends Component {
       console.log('Välkommen: ', snap.name);
       this.setState({name: snap.name  });
       this.setState({profileImg: snap.img})
+      this.setState({userScore: snap.score})
     }.bind(this))
 
     firebase.database().ref('/users/').on('child_changed',function(snapshot) { //Listens to the databes and changes the web-data
@@ -120,6 +123,7 @@ class App extends Component {
         </div>
         {this.state.user ?
           <Tab
+            passUserScore={this.state.userScore}
             passUserImg={this.state.profileImg}
             passUserName={this.state.name}
             passUserId={this.state.loggedInUserId}

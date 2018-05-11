@@ -8,7 +8,6 @@ class Profile extends Component{
     this.state = {
       username: '',
       profileImg: '',
-
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleProfileImgChange = this.handleProfileImgChange.bind(this);
@@ -39,9 +38,7 @@ class Profile extends Component{
       event.target.reset();
       db.ref('users/' + this.props.passUserId).update({
         'name': this.state.username,
-        //'img': this.state.profileImg,
       });
-      console.log(this.props.passUserId)
       this.setState({username: ''});  //Removes input text after submitted text
       this.setState({profileImg: ''});
     }else{
@@ -58,11 +55,13 @@ class Profile extends Component{
   }
 
     render(){
-      console.log(this.props.passUserId)
       return(
         <form onSubmit={this.handleSubmit}>
           <div className="inputWrap">
-            <h3>Profile</h3>
+            <div className="headProfStl">
+              <h3>Profile</h3>
+              <h2>Score {this.props.passUserScore}p</h2>
+            </div>
             <div className="inputWrap2">
               <div className="profileImgWrap">
                 <img src={this.props.passUserImg} alt="Not found"/>
