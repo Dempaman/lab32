@@ -108,13 +108,13 @@ class App extends Component {
         <div className="containerLoggedIn">
           {this.state.user ?
             <Nav
-            src={this.state.profileImg}
-            onClick={this.logout}>
-            {this.state.name}
+              src={this.state.profileImg}
+              onClick={this.logout}>
+              {this.state.name}
             </Nav>
-            :
+          :
             <div>
-            <button className="buttonLog" onClick={this.login}>Log In</button>
+              <button className="buttonLog" onClick={this.login}>Log In</button>
             </div>
           }                                                                               {/**  Checks if user is logged in or not **/}
         </div>
@@ -124,9 +124,9 @@ class App extends Component {
             passUserName={this.state.name}
             passUserId={this.state.loggedInUserId}
             AllUsers={this.state.AllUsers}
-            />
-          :
-          <LoginModal />
+          />
+        :
+          <LoginModal passLogin={this.login} />
         }                                                                            {/**  End of containerLoggedIn **/}
       </div>
     );

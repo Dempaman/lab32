@@ -5,13 +5,18 @@ class LoginModal extends Component{
   constructor(props){
     super(props)
     this.state ={
-      landingTxt: "< QUIZ OF LEGENDS >"
+      landingTxt: "QUIZ OF LEGENDS"
     }
   }
   render(){
     return(
-      <div className="modalWrap">
-        <h4>{this.state.landingTxt}</h4>
+      <div>
+        <div className="txtWrap">
+          <h4>{this.state.landingTxt}</h4>
+        </div >
+        <div className="loginWrap">
+          <button className="loginBtn" onClick={this.props.passLogin}>Log in</button>
+        </div>
       </div>
     )
   }
