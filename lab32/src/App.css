@@ -1,35 +1,12 @@
-.containerLoggedIn{
-  background-color: #f8f8f8;
-  height: 75px;
+.containerLogged{
+  width: 100%;
+  background-color: transparent;
+
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
 }
 
-.profileInfo{
-  margin-right: 15px;
-  height: 75px;
-  display: flex;
-  align-items: center;
-}
-
-.profileInfo img{
-  border-radius: 50%;
-  height: 40px;
-  width: 40px;
-}
-
-.buttonLog{
-  color: white;
-outline: none;
-margin-right: 15px;
-border: none;
-border-radius: 5px;
-background-color: #1b90ff;
-width: 100px;
-height: 30px;
-}
-
-.buttonLog:hover{
-  cursor: pointer;
+.containerLoggedIn{
+  width: 100%;
 }

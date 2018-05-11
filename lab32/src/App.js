@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import Nav from './Nav.js';
+import Quiz from './Quiz.js';
 import firebase, { auth, provider } from './firebase.js';
-import Profile from './Profile.js'
+//import Profile from './Profile.js'
 import './login.css';
 
 
@@ -12,13 +13,18 @@ class App extends Component {
     this.state = {
       user: null,
       loggedInUserId: '',
-      name: ''
+      name: '',
+
     }
 
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
 
+
   }
+
+
+
   logout() {
     auth.signOut()
     .then(() => {
@@ -88,14 +94,17 @@ class App extends Component {
   render() {
     return (
       <div>
-        <div className="containerLoggedIn">
+        <div className="containerLogged">
           {this.state.user ?
-            <Nav
-            src={this.state.user.photoURL}
-            onClick={this.logout}>
-            {this.state.user.displayName}
-            </Nav>
-
+            <div className="containerLoggedIn">
+              <Nav
+              src={this.state.user.photoURL}
+              onClick={this.logout}
+              passUserInfo={this.state.loggedInUserId}>
+              {this.state.name}
+              </Nav>
+              <Quiz />
+            </div>
             :
             <div>
             <button className="buttonLog" onClick={this.login}>Log In</button>
@@ -103,7 +112,6 @@ class App extends Component {
             </div>
           } {/**  Checks if user is logged in or not **/}
         </div> {/**  End of containerLoggedIn **/}
-        <Profile passUserInfo={this.state.loggedInUserId}/>
       </div>
     );
   }
