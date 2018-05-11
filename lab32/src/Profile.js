@@ -35,11 +35,11 @@ class Profile extends Component{
   handleSubmit(event) {
     let db = firebase.database()
     event.preventDefault();
-    if(this.state.username.length > 5 || this.state.profileImg.length > 10 ){
+    if(this.state.username.length > 5){
       event.target.reset();
       db.ref('users/' + this.props.passUserId).update({
         'name': this.state.username,
-        'img': this.state.profileImg,
+        //'img': this.state.profileImg,
       });
       console.log(this.props.passUserId)
       this.setState({username: ''});  //Removes input text after submitted text
@@ -47,8 +47,15 @@ class Profile extends Component{
     }else{
       console.log("För kort namn")
     }
+    if(this.state.profileImg.includes('.jpg', '.png')){
+      event.target.reset();
+      db.ref('users/' + this.props.passUserId).update({
+        'img': this.state.profileImg,
+      });
+    }else{
+      console.log("måste vara en jpg eller png format på bilden")
+    }
   }
-
 
     render(){
       console.log(this.props.passUserId)
