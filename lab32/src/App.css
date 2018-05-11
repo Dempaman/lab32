@@ -1,12 +1,60 @@
-.containerLogged{
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+body, html{
+ /*background-image: linear-gradient(to left top, #cdeaf8, #c6e0f7, #c4d5f4, #c7caee, #cdbde4);*/
+ background-image: url('./img/wallquiz.jpg');
+ background-size: cover;
+ margin: 0;
+ padding: 0;
+ height: 100%;
+ width: 100%;
+}
+#root{
+  height: 100%;
   width: 100%;
-  background-color: transparent;
-
+}
+.containerLoggedIn{
+  -webkit-box-shadow: 2px -1px 121px -25px rgba(0,0,0,0.48);
+  -moz-box-shadow: 2px -1px 121px -25px rgba(0,0,0,0.48);
+  box-shadow: 2px -1px 121px -25px rgba(0,0,0,0.48);
+  background-color: #f8f8f84d;
+  height: 75px;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
 }
 
-.containerLoggedIn{
-  width: 100%;
+
+
+.profileInfo{
+  margin-right: 15px;
+  height: 75px;
+  display: flex;
+  align-items: center;
+}
+
+.profileInfo img{
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  object-fit: cover;
+  object-position: center;
+  margin: 0 8px 0 0;
+}
+
+.buttonLog{
+  color: white;
+  outline: none;
+  margin-right: 20px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #1c82e2;
+  width: 100px;
+  height: 30px;
+  font-family: 'Open Sans';
+}
+
+.buttonLog:hover{
+  cursor: pointer;
+
 }

@@ -3,12 +3,14 @@ import firebase from './firebase.js';
 import './profile.css'
 
 class Profile extends Component{
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       username: '',
+      profileImg: '',
     }
     this.handleChange = this.handleChange.bind(this);
+    this.handleProfileImgChange = this.handleProfileImgChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -18,26 +20,58 @@ class Profile extends Component{
     });
   }
 
+  handleProfileImgChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  }
+
+  cancelCourse = () => {
+  this.myFormRef.reset();
+  }
+
   //updates the profile name in database
   handleSubmit(event) {
     let db = firebase.database()
     event.preventDefault();
-    db.ref('users/' + this.props.passUserInfo).update({
-      'name': this.state.username,
-    });
-    console.log(this.props.passUserInfo)
+    if(this.state.username.length > 5){
+      event.target.reset();
+      db.ref('users/' + this.props.passUserId).update({
+        'name': this.state.username,
+      });
+      this.setState({username: ''});  //Removes input text after submitted text
+      this.setState({profileImg: ''});
+    }else{
+      console.log("För kort namn")
+    }
+    if(this.state.profileImg.includes('.jpg', '.png')){
+      event.target.reset();
+      db.ref('users/' + this.props.passUserId).update({
+        'img': this.state.profileImg,
+      });
+    }else{
+      console.log("måste vara en jpg eller png format på bilden")
+    }
   }
 
-
     render(){
-
       return(
         <form onSubmit={this.handleSubmit}>
           <div className="inputWrap">
-            <div>
-              <input className="inputStl"type="text" name="username" placeholder="change your name" onChange={this.handleChange} value={this.state.username}/ >
-              <button className="subName">Submit</button>
-              {/*<div>{this.props.passUserInfo}</div> //This props value comes from state in App.js*/}
+            <div className="headProfStl">
+              <h3>Profile</h3>
+              <h2>Score {this.props.passUserScore}p</h2>
+            </div>
+            <div className="inputWrap2">
+              <div className="profileImgWrap">
+                <img src={this.props.passUserImg} alt="Not found"/>
+              </div>
+              <div>{this.props.passUserName}</div>
+              <div>
+                <input className="inputStl" type="text" name="username" placeholder="change your name" onChange={this.handleChange} value={this.state.username}/ >
+                <input className="inputStl" type="text" name="profileImg" placeholder="change your profile image" onChange={this.handleProfileImgChange} value={this.state.profileImg}/ >
+                <button className="subName">Submit</button>
+              </div>
             </div>
           </div>
         </form>

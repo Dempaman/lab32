@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+h4{
+  font-size: 5em;
+  font-family: 'Open Sans';
+  color: #fff;
+  font-weight: normal;
+  letter-spacing: 28px;
+  border-bottom: 2px solid #b6b6b666;
+}
+
+.txtWrap{
+  display: flex;
+  justify-content: center;
+  margin: 40px auto;
+  font-family: 'Open Sans';
+}
+
+.loginWrap{
+  display: flex;
+  justify-content: center;
+}
+
+.loginBtn{
+  background-color: #ffa84c;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffa84c), color-stop(100%, #ff7b0d));
+  border: none;
+  color: #fff;
+  font-family: 'Open Sans';
+  line-height: 1;
+  font-size: 1em;
+  padding: 7px 0 8px 0;
+  text-align: center;
+  width: 215px;
+  height: 42px;
+  border-radius: 7px;
+}

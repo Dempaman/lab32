@@ -1,0 +1,44 @@
+
+
+.labels{
+  list-style-type: none;
+  display: flex;
+}
+
+.tabStyle{
+  display: flex;
+  justify-content: center;
+  margin: 50px 20px 10px 20px;
+}
+
+.itemStyle{
+  background-color: #f6f6f6;
+  width: 350px;
+  margin: 0 auto;
+  text-align: center;
+  color: #575757;
+  height: 300px;
+  padding: 20px;
+}
+
+.wrap{
+  display: flex;
+  flex-direction: column;
+}
+
+.labels > div{
+  width: 100px;
+  background-color: #bcbcbc;
+  margin: 0 10px 0 10px;
+  text-align: center;
+  color: #fff;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-family: Arial;
+  font-weight: bold;
+}
+
+.labels > .active{
+  background-color: #787878;
+}

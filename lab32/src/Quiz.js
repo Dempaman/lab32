@@ -9,7 +9,7 @@ class Quiz extends React.Component{
 
     this.state={
       categorie: 'math',
-      choosen: false,
+      choosen: true,
       question: [],
       numberOfQuestions: 2,
       currentIndex: 0
@@ -39,7 +39,7 @@ class Quiz extends React.Component{
   }
 
   addQuestionToState(){
-    firebase.database().ref('categories/math').once('value').then(function(snapshot) {
+    firebase.database().ref('categories/' + this.state.categorie).once('value').then(function(snapshot) {
       let questionList = [];
       console.log(snapshot.val())
       snapshot.forEach(function(child) {

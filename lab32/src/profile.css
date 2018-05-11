@@ -1,10 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+h2{
+  margin-right: 30px;
+  font-weight: normal;
+  font-size: 1em;
+  margin-top: auto;
+}
+
+.inputWrap h3{
+  margin-left: 20px;
+  font-family: 'Open Sans';
+  color: #fff;
+  font-weight: normal;
+}
+
 .inputWrap{
+  -webkit-box-shadow: 10px 10px 37px -17px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 10px 37px -17px rgba(0,0,0,0.75);
+  box-shadow: 10px 10px 37px -17px rgba(0,0,0,0.75);
   display: flex;
-  justify-content: center;
-  background-color: #e9e9e9;
-  height: 300px;
+  flex-direction: column;
+   background-image: linear-gradient(to bottom, #064980, #0a5f94, #1976a6, #2c8db7, #42a4c7);
+  color: white;
+  opacity: 0.95;
+  height: 600px;
   width: 500px;
   margin: 40px auto;
+  border-radius: 4px;
+  font-family: 'Open Sans';
 }
 
 .subName{
@@ -16,14 +39,28 @@
   background-color: #1b90ff;
   width: 100px;
   height: 30px;
+  margin: 0 auto;
 }
 .subName:hover{
   cursor: pointer;
   background-color: #1b7bd7;
 }
 
-.inputWrap > div{
-  padding: 50px;
+.inputWrap2{
+  padding: 50px 100px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  text-align: center;
+}
+.inputWrap2 div{
+  margin: 10px;
+}
+.inputWrap2 input{
+  margin: 10px;
+}
+.inputWrap2 button{
+  margin: 10px 0px;
 }
 
 .inputStl{
@@ -33,5 +70,23 @@
   width: 200px;
   height: 25px;
   border-radius: 4px;
-  font-family: arial;
+  font-family: 'Open Sans';
+}
+.profileImgWrap > img{
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  margin: 20px auto;
+  border: 2px solid #fff;
+  object-fit: cover;
+  object-position: center;
+}
+
+.profileImgWrap{
+  border-bottom: 1px solid #d5d5d580;
+}
+
+.headProfStl{
+  display: flex;
+  justify-content: space-between;
 }
