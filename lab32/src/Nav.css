@@ -10,7 +10,11 @@
 }
 
 .userNameStl{
-  margin: 0 0 6px 0;
+  margin: 0 5px 0 0;
   font-family: 'Open Sans';
   color: #2c2c2c;
+}
+
+form{
+  margin-right: 10px;
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './tabs.css'
 import Profile from './Profile.js';
 import Highscore from './Highscore';
+import Quiz from './Quiz.js';
 
 class Tab extends Component{
   constructor(props){
@@ -21,7 +22,7 @@ class Tab extends Component{
 
       tab3:{
         label: 'Tab Three',
-        content: false
+        content: "Quiz"
       },
     };
 
@@ -85,7 +86,7 @@ class Tab extends Component{
                     AllUsers={this.props.AllUsers}/>
 
           case 'Quiz':
-          return //<Quiz component />
+          return <Quiz component />
 
         default:
           return console.log("Nu var de slut...");

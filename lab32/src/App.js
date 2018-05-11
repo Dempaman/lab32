@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Nav from './Nav.js';
+import Quiz from './Quiz.js';
 import firebase, { auth, provider } from './firebase.js';
 import Tab from './Tab.js';
 import LoginModal from './LoginModal.js';
@@ -20,7 +21,11 @@ class App extends Component {
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
 
+
   }
+
+
+
   logout() {
     auth.signOut()
     .then(() => {
