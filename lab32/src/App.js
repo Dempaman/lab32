@@ -113,7 +113,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <div className="containerLogged">
+        <div className="containerLoggedIn">
           {this.state.user ?
             <Nav
               src={this.state.profileImg}

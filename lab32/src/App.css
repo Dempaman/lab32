@@ -21,6 +21,7 @@ body, html{
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+
 }
 
 
@@ -44,8 +45,7 @@ body, html{
 .buttonLog{
   color: white;
   outline: none;
-  margin-right: 20px;
-  margin-top: 20px;
+  margin: 0 10px 0 0;
   border: none;
   border-radius: 5px;
   background-color: #1c82e2;
