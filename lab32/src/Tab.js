@@ -15,10 +15,10 @@ class Tab extends Component{
         content: "Profile"
       },
 
-      tab2:{
+    /*  tab2:{
         label: 'Tab Two',
         content: "Highscore"
-      },
+      }, */
 
       tab3:{
         label: 'Tab Three',
@@ -82,11 +82,10 @@ class Tab extends Component{
                     passUserId={this.props.passUserId}/>
 
           case 'Highscore':
-          return <Highscore
-                    AllUsers={this.props.AllUsers}/>
+          return //<Highscore AllUsers={this.props.AllUsers}/>
 
           case 'Quiz':
-          return <Quiz component />
+          return <Quiz />
 
         default:
           return console.log("Nu var de slut...");

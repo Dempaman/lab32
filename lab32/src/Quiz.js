@@ -80,6 +80,7 @@ this.setState( {currentIndex: this.state.currentIndex + 1} )
 
 
   render(){
+    console.log(this.props.passUserScore)
     return(
       <div className="containerQuiz">
       {this.state.choosen?

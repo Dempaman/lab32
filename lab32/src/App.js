@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
 import Nav from './Nav.js';
-import Quiz from './Quiz.js';
 import firebase, { auth, provider } from './firebase.js';
 import Tab from './Tab.js';
 import LoginModal from './LoginModal.js';
+import Highscore from './Highscore.js';
 
 class App extends Component {
   constructor(props) {
@@ -16,6 +16,7 @@ class App extends Component {
       profileImg: '',
       userScore: '',
       AllUsers: [],
+      showHighscore: false
     }
 
     this.login = this.login.bind(this);
@@ -24,7 +25,11 @@ class App extends Component {
 
   }
 
-
+  toggle() {
+  		this.setState({
+  			showHighscore: !this.state.showHighscore
+  		});
+  	}
 
   logout() {
     auth.signOut()
@@ -111,6 +116,11 @@ class App extends Component {
   }
 
   render() {
+
+    let showHighscore = {
+			display: this.state.showHighscore ? "block" : "none"
+		};
+
     return (
       <div>
         <div className="containerLoggedIn">
@@ -126,6 +136,9 @@ class App extends Component {
             </div>
           }                                                                               {/**  Checks if user is logged in or not **/}
         </div>
+        <div style={ showHighscore }>
+          <Highscore AllUsers={this.state.AllUsers}/>
+        </div>
         {this.state.user ?
           <Tab
             passUserScore={this.state.userScore}
@@ -136,7 +149,8 @@ class App extends Component {
           />
         :
           <LoginModal passLogin={this.login} />
-        }                                                                            {/**  End of containerLoggedIn **/}
+        }
+        <button className="toggleHighscore" onClick={this.toggle.bind(this)}>Highscore</button>                                                                         {/**  End of containerLoggedIn **/}
       </div>
     );
   }
