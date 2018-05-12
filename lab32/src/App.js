@@ -16,6 +16,7 @@ class App extends Component {
       profileImg: '',
       userScore: '',
       AllUsers: [],
+      loggedInUser: [],
       showHighscore: false
     }
 
@@ -83,6 +84,23 @@ class App extends Component {
       }.bind(this));
   }
 
+  updateLoggedInUserInfo(){
+    firebase.database().ref('/users/').once('value').then(function(snapshot) {
+      let user = [];
+      snapshot.forEach(function(child) {
+        user.push(child.val());
+      });
+      let findUser = user.find(item => item.uniqueID === this.state.loggedInUserId );
+      console.log(findUser.name)
+
+      this.setState({loggedInUser: user});
+      this.setState({name: findUser.name });
+      this.setState({profileImg: findUser.img})
+      this.setState({userScore: findUser.score})
+      console.log("this.state.loggedInUser", user)
+      }.bind(this));
+  }
+
   componentDidMount() {
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -99,21 +117,26 @@ class App extends Component {
             this.setState({userScore: snap.score})
           }
         }.bind(this));
+
+        firebase.database().ref('/users/' + this.state.loggedInUserId).on('child_changed',function(snapshot) {//Takes a snapshot of the database if triggered and changes your profile name on the website
+          let snap = snapshot.val()
+          console.log('Välkommen: ', snap);
+          this.updateLoggedInUserInfo()
+          console.log(this.state.user.uid)
+          console.log(this.state.loggedInUserId)
+          /*
+          this.setState({name: snap.name  });
+          this.setState({profileImg: snap.img})
+          this.setState({userScore: snap.score}) */
+        }.bind(this))
+
+        firebase.database().ref('/users/' + this.state.loggedInUserId).on('child_changed',function(snapshot) { //Listens to the databes and changes the web-data
+          this.addUserInfoToState()
+        }.bind(this))
       }
     });
-
-    firebase.database().ref('/users/' + this.state.loggedInUserId).on('child_changed',function(snapshot) {//Takes a snapshot of the database if triggered and changes your profile name on the website
-      let snap = snapshot.val()
-      console.log('Välkommen: ', snap.name);
-      this.setState({name: snap.name  });
-      this.setState({profileImg: snap.img})
-      this.setState({userScore: snap.score})
-    }.bind(this))
-
-    firebase.database().ref('/users/').on('child_changed',function(snapshot) { //Listens to the databes and changes the web-data
-      this.addUserInfoToState()
-    }.bind(this))
   }
+
 
   render() {
 

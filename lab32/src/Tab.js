@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './tabs.css'
 import Profile from './Profile.js';
-import Highscore from './Highscore';
+//import Highscore from './Highscore'
 import Quiz from './Quiz.js';
 
 class Tab extends Component{
