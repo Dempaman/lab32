@@ -122,15 +122,9 @@ class App extends Component {
           let snap = snapshot.val()
           console.log('Välkommen: ', snap);
           this.updateLoggedInUserInfo()
-          console.log(this.state.user.uid)
-          console.log(this.state.loggedInUserId)
-          /*
-          this.setState({name: snap.name  });
-          this.setState({profileImg: snap.img})
-          this.setState({userScore: snap.score}) */
         }.bind(this))
 
-        firebase.database().ref('/users/' + this.state.loggedInUserId).on('child_changed',function(snapshot) { //Listens to the databes and changes the web-data
+        firebase.database().ref('/users/').on('child_changed',function(snapshot) { //Listens to the databes and changes the web-data
           this.addUserInfoToState()
         }.bind(this))
       }
