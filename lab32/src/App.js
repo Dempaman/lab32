@@ -94,20 +94,20 @@ class App extends Component {
             this.setState({userScore: snap.score})
           }
         }.bind(this));
+
+        firebase.database().ref('/users/' + this.state.loggedInUserId).on('child_changed',function(snapshot) {//Takes a snapshot of the database if triggered and changes your profile name on the website
+          let snap = snapshot.val()
+          console.log('Välkommen: ', snap);
+          this.setState({name: snap.name  });
+          this.setState({profileImg: snap.img})
+          this.setState({userScore: snap.score})
+        }.bind(this))
+
+        firebase.database().ref('/users/' + this.state.loggedInUserId).on('child_changed',function(snapshot) { //Listens to the databes and changes the web-data
+          this.addUserInfoToState()
+        }.bind(this))
       }
     });
-
-    firebase.database().ref('/users/' + this.state.loggedInUserId).on('child_changed',function(snapshot) {//Takes a snapshot of the database if triggered and changes your profile name on the website
-      let snap = snapshot.val()
-      console.log('Välkommen: ', snap.name);
-      this.setState({name: snap.name  });
-      this.setState({profileImg: snap.img})
-      this.setState({userScore: snap.score})
-    }.bind(this))
-
-    firebase.database().ref('/users/').on('child_changed',function(snapshot) { //Listens to the databes and changes the web-data
-      this.addUserInfoToState()
-    }.bind(this))
   }
 
   render() {

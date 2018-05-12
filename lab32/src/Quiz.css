@@ -8,7 +8,7 @@
 }
 
 .quizHolder{
-  width: 50%;
+  width: 35%;
   height: 600px;
   display: flex;
 
@@ -50,4 +50,24 @@
 
 .containerAlternative:hover{
   background-color: #83d4f6;
+}
+
+.containerButtonOption{
+  width: 20%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+}
+
+.containerButtonOption button{
+  color: white;
+  height: 35px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  -webkit-box-shadow: 10px 10px 37px -17px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 10px 37px -17px rgba(0,0,0,0.75);
+  box-shadow: 10px 10px 37px -17px rgba(0,0,0,0.75);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffa84c), color-stop(100%, #ff7b0d));
+  margin: 10px 0 0 0;
 }

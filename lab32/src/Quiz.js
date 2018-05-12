@@ -2,6 +2,9 @@ import React from 'react';
 import './Quiz.css';
 import firebase from './firebase.js';
 
+const divStyle = {
+ backgroundColor: 'black'
+};
 
 class Quiz extends React.Component{
   constructor(){
@@ -12,12 +15,15 @@ class Quiz extends React.Component{
       choosen: true,
       question: [],
       numberOfQuestions: 2,
-      currentIndex: 0
+      currentIndex: 0,
+      bgColor: "white"
     }
     this.answerCheckOne = this.answerCheckOne.bind(this);
     this.addQuestionToState = this.addQuestionToState.bind(this);
     this.chooseJs = this.chooseJs.bind(this);
     this.chooseMath = this.chooseMath.bind(this);
+    this.chooseHtml = this.chooseHtml.bind(this);
+
   }
 
   chooseJs(){
@@ -32,6 +38,15 @@ class Quiz extends React.Component{
   chooseMath(){
     this.setState({
     categorie: 'math',
+    choosen: false
+    }, () => {
+    this.addQuestionToState();
+    });
+  }
+
+  chooseHtml(){
+    this.setState({
+    categorie: 'html',
     choosen: false
     }, () => {
     this.addQuestionToState();
@@ -56,19 +71,24 @@ class Quiz extends React.Component{
     }
 
 
-  answerCheckOne(e){
+
+  answerCheckOne(e, score){
     console.log(e.target.textContent);
 
     let answer = e.target.textContent.toString()/*parseInt(e.target.textContent);*/
-    let correctAnswer = this.state.question[0].question.correct.toString() //parseInt(this.state.question[0].question.correct);
+    let correctAnswer = this.state.question[this.state.currentIndex].question.correct.toString() //parseInt(this.state.question[0].question.correct);
 
     if ( answer === correctAnswer ) {
       console.log("CORRECT");
+      this.setState({bgColor: "green"})
+      firebase.database().ref().child('/users/' + this.props.passUserId).update({ score: this.props.passUserScore + 10});
+      console.log(this.props.passUserScore);
     } else {
+      this.setState({bgColor: "red"})
       console.log("WRONG");
    }
 
-this.setState( {currentIndex: this.state.currentIndex + 1} )
+
    if(this.state.question.length - 1 > this.state.currentIndex){
      console.log("one more")
    }else{
@@ -76,6 +96,16 @@ this.setState( {currentIndex: this.state.currentIndex + 1} )
    }
    console.log(correctAnswer);
    console.log(answer);
+
+   setTimeout(() => {
+           this.setState({
+           currentIndex: this.state.currentIndex + 1,
+           bgColor: "white"
+         })
+       }, 2000);
+     //this.setState( {currentIndex: this.state.currentIndex + 1} )
+
+
  }
 
 
@@ -85,10 +115,11 @@ this.setState( {currentIndex: this.state.currentIndex + 1} )
       {this.state.choosen?
       <CategorieOption
       optionJs={this.chooseJs}
-      optionMath={this.chooseMath} />
+      optionMath={this.chooseMath}
+      optionHtml={this.chooseHtml} />
       :
       (this.state.currentIndex === this.state.numberOfQuestions? <h1>DONE!</h1> :
-      <div className="quizHolder">
+      <div className="quizHolder" style={{backgroundColor: this.state.bgColor}}>
           <h1>Quiz</h1>
           <Question>
             {this.state.question.length > 0? <h3>{this.state.question[this.state.currentIndex].question.statement}</h3> : null}
@@ -136,9 +167,10 @@ function Question(props){
 
 function CategorieOption(props){
   return(
-    <div>
-      <button onClick={props.optionJs}>Javascript</button>
+    <div className="containerButtonOption">
+      <button onClick={props.optionJs}>JavaScript</button>
       <button onClick={props.optionMath}>Math</button>
+      <button onClick={props.optionHtml}>HTML</button>
     </div>
   )
 }
