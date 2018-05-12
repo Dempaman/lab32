@@ -110,6 +110,7 @@ class Quiz extends React.Component{
 
 
   render(){
+    console.log(this.props.passUserScore)
     return(
       <div className="containerQuiz">
       {this.state.choosen?

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import './highscore.css'
 
-
 class Highscore extends Component{
   render(){
     const listNames = this.props.AllUsers.sort((a, b) => b.score - a.score).map(
@@ -11,9 +10,13 @@ class Highscore extends Component{
             </div>
     )
     return(
-      <div>
-        <h3 className="highscoreTxt">Highscore</h3>
-        <div className="scoreDiv">{listNames}</div>
+      <div className="containerHighscore">
+        <div>
+          <div className="highscoreDiv">
+            <h3 className="highscoreTxt">Highscore</h3>
+          </div>
+          <div className="scoreDiv">{listNames}</div>
+        </div>
       </div>
     );
   }

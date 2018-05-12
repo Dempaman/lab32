@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
 import Nav from './Nav.js';
-import Quiz from './Quiz.js';
 import firebase, { auth, provider } from './firebase.js';
 import Tab from './Tab.js';
 import LoginModal from './LoginModal.js';
+import Highscore from './Highscore.js';
 
 class App extends Component {
   constructor(props) {
@@ -16,6 +16,8 @@ class App extends Component {
       profileImg: '',
       userScore: '',
       AllUsers: [],
+      loggedInUser: [],
+      showHighscore: false
     }
 
     this.login = this.login.bind(this);
@@ -24,7 +26,11 @@ class App extends Component {
 
   }
 
-
+  toggle() {
+  		this.setState({
+  			showHighscore: !this.state.showHighscore
+  		});
+  	}
 
   logout() {
     auth.signOut()
@@ -78,6 +84,23 @@ class App extends Component {
       }.bind(this));
   }
 
+  updateLoggedInUserInfo(){
+    firebase.database().ref('/users/').once('value').then(function(snapshot) {
+      let user = [];
+      snapshot.forEach(function(child) {
+        user.push(child.val());
+      });
+      let findUser = user.find(item => item.uniqueID === this.state.loggedInUserId );
+      console.log(findUser.name)
+
+      this.setState({loggedInUser: user});
+      this.setState({name: findUser.name });
+      this.setState({profileImg: findUser.img})
+      this.setState({userScore: findUser.score})
+      console.log("this.state.loggedInUser", user)
+      }.bind(this));
+  }
+
   componentDidMount() {
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -96,21 +119,25 @@ class App extends Component {
         }.bind(this));
 
         firebase.database().ref('/users/' + this.state.loggedInUserId).on('child_changed',function(snapshot) {//Takes a snapshot of the database if triggered and changes your profile name on the website
-          let snap = snapshot.val()
-          console.log('Välkommen: ', snap);
-          this.setState({name: snap.name  });
-          this.setState({profileImg: snap.img})
-          this.setState({userScore: snap.score})
-        }.bind(this))
+         let snap = snapshot.val()
+         console.log('Välkommen: ', snap);
+         this.updateLoggedInUserInfo()
+       }.bind(this))
 
-        firebase.database().ref('/users/' + this.state.loggedInUserId).on('child_changed',function(snapshot) { //Listens to the databes and changes the web-data
-          this.addUserInfoToState()
-        }.bind(this))
+       firebase.database().ref('/users/').on('child_changed',function(snapshot) { //Listens to the databes and changes the web-data
+           this.addUserInfoToState()
+         }.bind(this))
       }
     });
   }
 
+
   render() {
+
+    let showHighscore = {
+			display: this.state.showHighscore ? "block" : "none"
+		};
+
     return (
       <div>
         <div className="containerLoggedIn">
@@ -126,6 +153,9 @@ class App extends Component {
             </div>
           }                                                                               {/**  Checks if user is logged in or not **/}
         </div>
+        <div style={ showHighscore }>
+          <Highscore AllUsers={this.state.AllUsers}/>
+        </div>
         {this.state.user ?
           <Tab
             passUserScore={this.state.userScore}
@@ -136,7 +166,8 @@ class App extends Component {
           />
         :
           <LoginModal passLogin={this.login} />
-        }                                                                            {/**  End of containerLoggedIn **/}
+        }
+        <button className="toggleHighscore" onClick={this.toggle.bind(this)}>Highscore</button>                                                                         {/**  End of containerLoggedIn **/}
       </div>
     );
   }
