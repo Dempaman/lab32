@@ -15,14 +15,15 @@ class App extends Component {
       name: '',
       profileImg: '',
       userScore: '',
+      userEmail: '',
       AllUsers: [],
       loggedInUser: [],
-      showHighscore: false
+      showHighscore: false,
+      avatars: []
     }
 
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
-
 
   }
 
@@ -47,6 +48,7 @@ class App extends Component {
       const user = result.user;
       this.setState({user});
       this.addUserInfoToFirebase();
+      this.addAvatarsToState()
     });
   }
 
@@ -68,6 +70,7 @@ class App extends Component {
           'img': this.state.user.photoURL,
           'score': 0,
           'uniqueID': this.state.user.uid,
+          'email': this.state.user.email,
         });
       }
     }.bind(this));
@@ -81,6 +84,17 @@ class App extends Component {
       });
       this.setState({AllUsers: users});
       console.log("this.state.AllUsers", this.state.AllUsers)
+      }.bind(this));
+  }
+
+  addAvatarsToState(){
+    firebase.database().ref('/avatar/').once('value').then(function(snapshot) {
+      let avatar = [];
+      snapshot.forEach(function(child) {
+        avatar.push(child.val());
+      });
+      this.setState({avatars: avatar});
+      //console.log("this.state.AllUsers", this.state.avatar)
       }.bind(this));
   }
 
@@ -106,7 +120,8 @@ class App extends Component {
       if (user) {
         this.setState({ user });
         this.setState({loggedInUserId: this.state.user.uid })
-        this.addUserInfoToState() //Add the user names and scores in state
+        this.addUserInfoToState(); //Add the user names and scores in state
+        this.addAvatarsToState();
 
         firebase.database().ref().child('/users/' + this.state.user.uid).once('value').then(function(snapshot) {  //Takes a snapshot of the database and prints the username if there is someone logged in
           let snap = snapshot.val()
@@ -115,6 +130,7 @@ class App extends Component {
             this.setState({name: snap.name})
             this.setState({profileImg: snap.img})
             this.setState({userScore: snap.score})
+            this.setState({userEmail: snap.email})
           }
         }.bind(this));
 
@@ -133,7 +149,6 @@ class App extends Component {
 
 
   render() {
-
     let showHighscore = {
 			display: this.state.showHighscore ? "block" : "none"
 		};
@@ -158,6 +173,8 @@ class App extends Component {
         </div>
         {this.state.user ?
           <Tab
+            passAvatars={this.state.avatars}
+            passUserEmail={this.state.userEmail}
             passUserScore={this.state.userScore}
             passUserImg={this.state.profileImg}
             passUserName={this.state.name}

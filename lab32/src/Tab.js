@@ -76,6 +76,8 @@ class Tab extends Component{
       switch(param) {
         case 'Profile':
           return <Profile
+                    passAvatars={this.props.passAvatars}
+                    passUserEmail={this.props.passUserEmail}
                     passUserScore={this.props.passUserScore}
                     passUserImg={this.props.passUserImg}
                     passUserName={this.props.passUserName}
@@ -85,14 +87,10 @@ class Tab extends Component{
           return //<Highscore AllUsers={this.props.AllUsers}/>
 
           case 'Quiz':
-<<<<<<< HEAD
-          return <Quiz passUserScore={this.props.passUserScore} />
-=======
           return <Quiz
                   passUserScore={this.props.passUserScore}
                   passUserId={this.props.passUserId}
                   />
->>>>>>> acff72512f970119257a013947ddee4764dcb743
 
         default:
           return console.log("Nu var de slut...");
@@ -100,9 +98,9 @@ class Tab extends Component{
     }
 
   render(){
+    console.log(this.props.passAvatars)
     return(
       <div className = "wrap">
-
         <div className = "tabStyle" >
           <div className = "labels">{this.renderLabels()}</div>
         </div>

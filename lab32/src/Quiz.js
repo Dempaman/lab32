@@ -42,11 +42,7 @@ class Quiz extends React.Component{
     this.addQuestionToState();
     });
 
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> acff72512f970119257a013947ddee4764dcb743
       /*setInterval(() => {
               this.setState({
               currentIndex: this.state.currentIndex + 1
@@ -91,8 +87,6 @@ class Quiz extends React.Component{
     this.addQuestionToState();
     }
 
-
-
   answerCheckOne(e, score){
 
 
@@ -107,7 +101,6 @@ class Quiz extends React.Component{
       this.setState({bgColor: "red"})
       console.log("WRONG");
    }
-
 
 
    setTimeout(() => {
@@ -153,7 +146,6 @@ class Quiz extends React.Component{
           </div>
         </div>
       )
-
       }
       </div>
     )

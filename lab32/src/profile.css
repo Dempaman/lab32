@@ -20,7 +20,7 @@ h2{
   box-shadow: 10px 10px 37px -17px rgba(0,0,0,0.75);
   display: flex;
   flex-direction: column;
-   background-image: linear-gradient(to bottom, #064980, #0a5f94, #1976a6, #2c8db7, #42a4c7);
+  background-image: linear-gradient(to bottom, #064980, #0a5f94, #1976a6, #2c8db7, #42a4c7);
   color: white;
   opacity: 0.95;
   height: 600px;
@@ -59,9 +59,6 @@ h2{
 .inputWrap2 input{
   margin: 10px;
 }
-.inputWrap2 button{
-  margin: 10px 0px;
-}
 
 .inputStl{
   background-color: #fff;
@@ -71,6 +68,7 @@ h2{
   height: 25px;
   border-radius: 4px;
   font-family: 'Open Sans';
+  margin: 0 10px 10px 0;
 }
 .profileImgWrap > img{
   border-radius: 50%;
@@ -89,4 +87,79 @@ h2{
 .headProfStl{
   display: flex;
   justify-content: space-between;
+}
+
+.editBtn{
+  margin: 0 auto;
+  color: white;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  background-color: #1b90ff;
+  width: 100px;
+  height: 30px;
+  margin: 50px auto;
+}
+
+.editBtn:hover{
+  background-color: #1d81e0;
+  border: 1px solid #ffffff1a;
+  cursor: pointer;
+}
+
+.editDiv{
+  -webkit-box-shadow: 10px 10px 37px -17px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 10px 37px -17px rgba(0,0,0,0.75);
+  box-shadow: 10px 10px 37px -17px rgba(0,0,0,0.75);
+  background-image: linear-gradient(to bottom, #064980, #0a5f94, #1976a6, #2c8db7, #42a4c7);
+  height: 400px;
+  padding: 20px 0px 0px 20px;
+  width: 600px;
+  margin: 120px auto;
+  border-radius: 3px;
+}
+
+.editDivBackground{
+  position: absolute;
+  background-color: #0006;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+}
+
+.close {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  opacity: 0.6;
+  margin: 0 0 0 20px;
+  font-size: 1em;
+}
+.close:hover {
+  opacity: 1;
+}
+.close:before, .close:after {
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 18px;
+  width: 2px;
+  background-color: #333;
+}
+.close:before {
+  transform: rotate(45deg);
+}
+.close:after {
+  transform: rotate(-45deg);
+}
+
+.profileTxt{
+  text-align: left;
+  border-bottom: 1px solid #fff6;
+  padding-bottom: 20px;
 }
