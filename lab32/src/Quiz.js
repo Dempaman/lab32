@@ -2,10 +2,6 @@ import React from 'react';
 import './Quiz.css';
 import firebase from './firebase.js';
 
-const divStyle = {
- backgroundColor: 'black'
-};
-
 class Quiz extends React.Component{
   constructor(){
     super();
@@ -23,9 +19,21 @@ class Quiz extends React.Component{
     this.chooseJs = this.chooseJs.bind(this);
     this.chooseMath = this.chooseMath.bind(this);
     this.chooseHtml = this.chooseHtml.bind(this);
+    this.timeLimit = this.timeLimit.bind(this);
 
   }
 
+
+
+  timeLimit(){
+    if(this.state.currentIndex < this.state.numberOfQuestions){
+      this.setState({currentIndex: this.state.currentIndex +1})
+    }else{
+      console.log("the end")
+
+    }
+
+  }
   chooseJs(){
     this.setState({
     categorie: 'javascript',
@@ -33,6 +41,16 @@ class Quiz extends React.Component{
     }, () => {
     this.addQuestionToState();
     });
+
+  
+      /*setInterval(() => {
+              this.setState({
+              currentIndex: this.state.currentIndex + 1
+            })
+          }, 5000);*/
+
+
+
   }
 
   chooseMath(){
@@ -56,7 +74,6 @@ class Quiz extends React.Component{
   addQuestionToState(){
     firebase.database().ref('categories/' + this.state.categorie).once('value').then(function(snapshot) {
       let questionList = [];
-      console.log(snapshot.val())
       snapshot.forEach(function(child) {
         questionList.push(child.val());
       });
@@ -73,7 +90,7 @@ class Quiz extends React.Component{
 
 
   answerCheckOne(e, score){
-    console.log(e.target.textContent);
+
 
     let answer = e.target.textContent.toString()/*parseInt(e.target.textContent);*/
     let correctAnswer = this.state.question[this.state.currentIndex].question.correct.toString() //parseInt(this.state.question[0].question.correct);
@@ -82,20 +99,12 @@ class Quiz extends React.Component{
       console.log("CORRECT");
       this.setState({bgColor: "green"})
       firebase.database().ref().child('/users/' + this.props.passUserId).update({ score: this.props.passUserScore + 10});
-      console.log(this.props.passUserScore);
     } else {
       this.setState({bgColor: "red"})
       console.log("WRONG");
    }
 
 
-   if(this.state.question.length - 1 > this.state.currentIndex){
-     console.log("one more")
-   }else{
-     console.log("no more")
-   }
-   console.log(correctAnswer);
-   console.log(answer);
 
    setTimeout(() => {
            this.setState({
@@ -110,7 +119,6 @@ class Quiz extends React.Component{
 
 
   render(){
-    console.log(this.props.passUserScore)
     return(
       <div className="containerQuiz">
       {this.state.choosen?
