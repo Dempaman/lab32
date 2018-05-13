@@ -85,7 +85,14 @@ class Tab extends Component{
           return //<Highscore AllUsers={this.props.AllUsers}/>
 
           case 'Quiz':
+<<<<<<< HEAD
           return <Quiz passUserScore={this.props.passUserScore} />
+=======
+          return <Quiz
+                  passUserScore={this.props.passUserScore}
+                  passUserId={this.props.passUserId}
+                  />
+>>>>>>> acff72512f970119257a013947ddee4764dcb743
 
         default:
           return console.log("Nu var de slut...");
