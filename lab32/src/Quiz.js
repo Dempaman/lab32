@@ -12,28 +12,20 @@ class Quiz extends React.Component{
       question: [],
       numberOfQuestions: 2,
       currentIndex: 0,
-      bgColor: "white"
+      bgColor: "white",
+      currentScore: 0
     }
     this.answerCheckOne = this.answerCheckOne.bind(this);
     this.addQuestionToState = this.addQuestionToState.bind(this);
     this.chooseJs = this.chooseJs.bind(this);
     this.chooseMath = this.chooseMath.bind(this);
     this.chooseHtml = this.chooseHtml.bind(this);
-    this.timeLimit = this.timeLimit.bind(this);
+
 
   }
 
 
 
-  timeLimit(){
-    if(this.state.currentIndex < this.state.numberOfQuestions){
-      this.setState({currentIndex: this.state.currentIndex +1})
-    }else{
-      console.log("the end")
-
-    }
-
-  }
   chooseJs(){
     this.setState({
     categorie: 'javascript',
@@ -41,16 +33,6 @@ class Quiz extends React.Component{
     }, () => {
     this.addQuestionToState();
     });
-
-  
-      /*setInterval(() => {
-              this.setState({
-              currentIndex: this.state.currentIndex + 1
-            })
-          }, 5000);*/
-
-
-
   }
 
   chooseMath(){
@@ -98,9 +80,12 @@ class Quiz extends React.Component{
     if ( answer === correctAnswer ) {
       console.log("CORRECT");
       this.setState({bgColor: "green"})
+      this.setState({currentScore: this.state.currentScore + 10})
       firebase.database().ref().child('/users/' + this.props.passUserId).update({ score: this.props.passUserScore + 10});
     } else {
       this.setState({bgColor: "red"})
+      this.setState({currentScore: this.state.currentScore - 10})
+      firebase.database().ref().child('/users/' + this.props.passUserId).update({ score: this.props.passUserScore - 10});
       console.log("WRONG");
    }
 
@@ -112,9 +97,6 @@ class Quiz extends React.Component{
            bgColor: "white"
          })
        }, 2000);
-     //this.setState( {currentIndex: this.state.currentIndex + 1} )
-
-
  }
 
 
@@ -127,9 +109,10 @@ class Quiz extends React.Component{
       optionMath={this.chooseMath}
       optionHtml={this.chooseHtml} />
       :
-      (this.state.currentIndex === this.state.numberOfQuestions? <h1>DONE!</h1> :
+      (this.state.currentIndex === this.state.numberOfQuestions? <h1>DONE!<br/><p>Score: {this.state.currentScore}</p></h1> :
       <div className="quizHolder" style={{backgroundColor: this.state.bgColor}}>
           <h1>Quiz</h1>
+          <p>{this.state.currentScore}</p>
           <Question>
             {this.state.question.length > 0? <h3>{this.state.question[this.state.currentIndex].question.statement}</h3> : null}
           </Question>
