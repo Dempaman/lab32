@@ -7,22 +7,23 @@ class Quiz extends React.Component{
     super();
 
     this.state={
-      categorie: 'math',
+      categorie: 'javascript',
       choosen: true,
       question: [],
-      numberOfQuestions: 2,
+      numberOfQuestions: 5,
       currentIndex: 0,
       bgColor: "white",
       currentScore: 0,
       time: {},
-      seconds: 30
+      seconds: 30,
+      comboCheck: 0
     }
     this.timer = 0;
 
     this.answerCheckOne = this.answerCheckOne.bind(this);
     this.addQuestionToState = this.addQuestionToState.bind(this);
     this.chooseJs = this.chooseJs.bind(this);
-    this.chooseMath = this.chooseMath.bind(this);
+    this.chooseCss = this.chooseCss.bind(this);
     this.chooseHtml = this.chooseHtml.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.countDown = this.countDown.bind(this);
@@ -39,9 +40,9 @@ class Quiz extends React.Component{
     });
   }
 
-  chooseMath(){
+  chooseCss(){
     this.setState({
-    categorie: 'math',
+    categorie: 'css',
     choosen: false
     }, () => {
     this.addQuestionToState();
@@ -84,12 +85,19 @@ class Quiz extends React.Component{
 
     if ( answer === correctAnswer ) {
       console.log("CORRECT");
+      this.setState({comboCheck: this.state.comboCheck + 1})
       this.setState({bgColor: "green"})
-      this.setState({currentScore: this.state.currentScore + 10})
-      firebase.database().ref().child('/users/' + this.props.passUserId).update({ score: this.props.passUserScore + 10});
+        if(this.state.comboCheck >= 3){ // IF COMBO THEN USER GETS 15 POINTS
+          this.setState({currentScore: this.state.currentScore + 15})
+          firebase.database().ref().child('/users/' + this.props.passUserId).update({ score: this.props.passUserScore + 15});
+        }else{
+          this.setState({currentScore: this.state.currentScore + 10})
+          firebase.database().ref().child('/users/' + this.props.passUserId).update({ score: this.props.passUserScore + 10});
+        }
     } else {
       this.setState({bgColor: "red"})
       this.setState({currentScore: this.state.currentScore - 10})
+      this.setState({comboCheck: 0})
       firebase.database().ref().child('/users/' + this.props.passUserId).update({ score: this.props.passUserScore - 10});
       console.log("WRONG");
    }
@@ -161,7 +169,7 @@ class Quiz extends React.Component{
       {this.state.choosen?
       <CategorieOption
       optionJs={this.chooseJs}
-      optionMath={this.chooseMath}
+      optionMath={this.chooseCss}
       optionHtml={this.chooseHtml} />
       :
       (this.state.currentIndex === this.state.numberOfQuestions? <h1>DONE!<br/><p>Score: {this.state.currentScore}</p></h1> :
@@ -216,7 +224,7 @@ function CategorieOption(props){
   return(
     <div className="containerButtonOption">
       <button onClick={props.optionJs}>JavaScript</button>
-      <button onClick={props.optionMath}>Math</button>
+      <button onClick={props.optionMath}>CSS</button>
       <button onClick={props.optionHtml}>HTML</button>
     </div>
   )
