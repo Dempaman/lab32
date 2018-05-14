@@ -98,7 +98,6 @@ class Tab extends Component{
     }
 
   render(){
-    console.log(this.props.passAvatars)
     return(
       <div className = "wrap">
         <div className = "tabStyle" >

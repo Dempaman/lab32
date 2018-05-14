@@ -13,18 +13,21 @@ class Quiz extends React.Component{
       numberOfQuestions: 2,
       currentIndex: 0,
       bgColor: "white",
-      currentScore: 0
+      currentScore: 0,
+      time: {},
+      seconds: 30
     }
+    this.timer = 0;
+
     this.answerCheckOne = this.answerCheckOne.bind(this);
     this.addQuestionToState = this.addQuestionToState.bind(this);
     this.chooseJs = this.chooseJs.bind(this);
     this.chooseMath = this.chooseMath.bind(this);
     this.chooseHtml = this.chooseHtml.bind(this);
-
+    this.startTimer = this.startTimer.bind(this);
+    this.countDown = this.countDown.bind(this);
 
   }
-
-
 
   chooseJs(){
     this.setState({
@@ -32,6 +35,7 @@ class Quiz extends React.Component{
     choosen: false
     }, () => {
     this.addQuestionToState();
+    this.startTimer();
     });
   }
 
@@ -41,6 +45,7 @@ class Quiz extends React.Component{
     choosen: false
     }, () => {
     this.addQuestionToState();
+    this.startTimer();
     });
   }
 
@@ -50,6 +55,7 @@ class Quiz extends React.Component{
     choosen: false
     }, () => {
     this.addQuestionToState();
+    this.startTimer();
     });
   }
 
@@ -59,19 +65,20 @@ class Quiz extends React.Component{
       snapshot.forEach(function(child) {
         questionList.push(child.val());
       });
-
       this.setState({question: questionList});
       }.bind(this));
-
   }
 
-    componentWillMount() {
+    componentDidMount() {
     this.addQuestionToState();
+    let timeLeftVar = this.secondsToTime(this.state.seconds);
+    this.setState({ time: timeLeftVar });
+    console.log("timeLeftVar",timeLeftVar)
     }
 
+
   answerCheckOne(e, score){
-
-
+    clearInterval(this.timer);
     let answer = e.target.textContent.toString()/*parseInt(e.target.textContent);*/
     let correctAnswer = this.state.question[this.state.currentIndex].question.correct.toString() //parseInt(this.state.question[0].question.correct);
 
@@ -87,14 +94,65 @@ class Quiz extends React.Component{
       console.log("WRONG");
    }
 
+   this.resetAndIncreaseIndex();
 
+ }
+
+ resetAndIncreaseIndex(){
    setTimeout(() => {
            this.setState({
            currentIndex: this.state.currentIndex + 1,
-           bgColor: "white"
+           bgColor: "white",
+           seconds: 30,
+           time: this.secondsToTime(this.state.seconds)
          })
+         this.timer = setInterval(this.countDown, 1000);
+         this.startTimer();
        }, 2000);
  }
+
+ secondsToTime(secs){
+    let hours = Math.floor(secs / (60 * 60));
+
+    let divisor_for_minutes = secs % (60 * 60);
+    let minutes = Math.floor(divisor_for_minutes / 60);
+
+    let divisor_for_seconds = divisor_for_minutes % 60;
+    let seconds = Math.ceil(divisor_for_seconds);
+
+    let obj = {
+      "h": hours,
+      "m": minutes,
+      "s": seconds
+    };
+    return obj;
+  }
+
+  startTimer() {
+    if (this.timer === 0) {
+      this.timer = setInterval(this.countDown, 1000);
+    }
+  }
+
+  countDown() {
+    let seconds = this.state.seconds - 1;
+    this.setState({
+      time: this.secondsToTime(seconds),
+      seconds: seconds,
+    });
+
+    if (seconds === 0) {
+      clearInterval(this.timer);
+      this.setState({bgColor: "red"})
+      this.setState({currentScore: this.state.currentScore - 10})
+      firebase.database().ref().child('/users/' + this.props.passUserId).update({ score: this.props.passUserScore - 10});
+      console.log("WRONG");
+      this.resetAndIncreaseIndex();
+      console.log(this.state.currentIndex)
+    }else if (this.state.currentIndex === this.state.numberOfQuestions) {
+      clearInterval(this.timer);
+    }
+  }
 
 
   render(){
@@ -108,6 +166,7 @@ class Quiz extends React.Component{
       :
       (this.state.currentIndex === this.state.numberOfQuestions? <h1>DONE!<br/><p>Score: {this.state.currentScore}</p></h1> :
       <div className="quizHolder" style={{backgroundColor: this.state.bgColor}}>
+          <div>s: {this.state.time.s}</div>
           <h1>Quiz</h1>
           <p>{this.state.currentScore}</p>
           <Question>
@@ -129,6 +188,7 @@ class Quiz extends React.Component{
           </div>
         </div>
       )
+
       }
       </div>
     )
@@ -145,7 +205,6 @@ function Alternative(props){
 
 
 function Question(props){
-
   return(
     <div className="containerQuestion">
       {props.children}

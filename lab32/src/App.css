@@ -2,7 +2,7 @@
 body, html{
  /*background-image: linear-gradient(to left top, #cdeaf8, #c6e0f7, #c4d5f4, #c7caee, #cdbde4);*/
  background-image: url('./img/wallquiz.jpg');
- background-size: cover;
+background-size: auto;
  margin: 0;
  padding: 0;
  height: 100%;
@@ -82,4 +82,8 @@ body, html{
 
 .toggleHighscore{
   cursor: pointer;
+}
+
+.hide{
+  display: none;
 }

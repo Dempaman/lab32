@@ -5,6 +5,7 @@ import firebase, { auth, provider } from './firebase.js';
 import Tab from './Tab.js';
 import LoginModal from './LoginModal.js';
 import Highscore from './Highscore.js';
+import Preloading from './Preloading.js';
 
 class App extends Component {
   constructor(props) {
@@ -19,7 +20,8 @@ class App extends Component {
       AllUsers: [],
       loggedInUser: [],
       showHighscore: false,
-      avatars: []
+      avatars: [],
+      hide: ''
     }
 
     this.login = this.login.bind(this);
@@ -120,8 +122,8 @@ class App extends Component {
       if (user) {
         this.setState({ user });
         this.setState({loggedInUserId: this.state.user.uid })
-        this.addUserInfoToState(); //Add the user names and scores in state
         this.addAvatarsToState();
+        this.addUserInfoToState(); //Add the user names and scores in state
 
         firebase.database().ref().child('/users/' + this.state.user.uid).once('value').then(function(snapshot) {  //Takes a snapshot of the database and prints the username if there is someone logged in
           let snap = snapshot.val()
@@ -131,6 +133,7 @@ class App extends Component {
             this.setState({profileImg: snap.img})
             this.setState({userScore: snap.score})
             this.setState({userEmail: snap.email})
+            setTimeout(this.setState({hide: 'hide'}),2000);
           }
         }.bind(this));
 
@@ -155,6 +158,9 @@ class App extends Component {
 
     return (
       <div>
+        <div className={this.state.hide}>
+          <Preloading />
+        </div>
         <div className="containerLoggedIn">
           {this.state.user ?
             <Nav

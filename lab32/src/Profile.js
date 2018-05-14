@@ -101,7 +101,7 @@ class Profile extends Component{
                     <input className="inputStl" type="text" name="username" placeholder="change your name" onChange={this.handleChange} value={this.state.username}/ >
                     <input className="inputStl" type="text" name="profileImg" placeholder="change your profile image" onChange={this.handleProfileImgChange} value={this.state.profileImg}/ >
                     <button className="subName">Submit</button>
-                    <a href="#" className="close" onClick={this.toggle.bind(this)} />
+                    <button className="close" onClick={this.toggle.bind(this)} ></button>
                     <Avatars passHandleAvatar={this.handleAvatar} passAvatars={this.props.passAvatars}/>
                   </div>
                 </form>
