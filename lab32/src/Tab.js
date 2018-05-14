@@ -76,6 +76,8 @@ class Tab extends Component{
       switch(param) {
         case 'Profile':
           return <Profile
+                    passAvatars={this.props.passAvatars}
+                    passUserEmail={this.props.passUserEmail}
                     passUserScore={this.props.passUserScore}
                     passUserImg={this.props.passUserImg}
                     passUserName={this.props.passUserName}
@@ -96,9 +98,9 @@ class Tab extends Component{
     }
 
   render(){
+    console.log(this.props.passAvatars)
     return(
       <div className = "wrap">
-
         <div className = "tabStyle" >
           <div className = "labels">{this.renderLabels()}</div>
         </div>

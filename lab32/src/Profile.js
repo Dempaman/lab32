@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import firebase from './firebase.js';
+import Avatars from './Avatars.js';
 import './profile.css'
 
 class Profile extends Component{
@@ -8,22 +9,33 @@ class Profile extends Component{
     this.state = {
       username: '',
       profileImg: '',
+      showEdit: false,
+      saveAvatar: ''
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleProfileImgChange = this.handleProfileImgChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleAvatar = this.handleAvatar.bind(this);
   }
 
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value
     });
+    console.log(event.target.name)
   }
 
   handleProfileImgChange(event) {
     this.setState({
       [event.target.name]: event.target.value
     });
+  }
+
+  handleAvatar(event){
+  let imgSrc =  event.target.src
+    //console.log(event.target.src)
+    this.setState({saveAvatar: imgSrc})
+    this.setState({profileImg: imgSrc})
   }
 
   cancelCourse = () => {
@@ -54,9 +66,19 @@ class Profile extends Component{
     }
   }
 
+  toggle() {
+      this.setState({
+        showEdit: !this.state.showEdit
+      });
+    }
+
     render(){
+
+      let showEdit = {
+        display: this.state.showEdit ? "block" : "none"
+      };
+
       return(
-        <form onSubmit={this.handleSubmit}>
           <div className="inputWrap">
             <div className="headProfStl">
               <h3>Profile</h3>
@@ -66,15 +88,26 @@ class Profile extends Component{
               <div className="profileImgWrap">
                 <img src={this.props.passUserImg} alt="Not found"/>
               </div>
-              <div>{this.props.passUserName}</div>
-              <div>
-                <input className="inputStl" type="text" name="username" placeholder="change your name" onChange={this.handleChange} value={this.state.username}/ >
-                <input className="inputStl" type="text" name="profileImg" placeholder="change your profile image" onChange={this.handleProfileImgChange} value={this.state.profileImg}/ >
-                <button className="subName">Submit</button>
+              <div className="profileTxt">
+                <div>{this.props.passUserName}</div>
+                <div>{this.props.passUserEmail}</div>
+              </div>
+              <button className="editBtn" onClick={this.toggle.bind(this)} > Edit </button>
+            </div>
+            <div className="editDivBackground" style={ showEdit }>
+              <div className="editDiv" >
+                <form onSubmit={this.handleSubmit}>
+                  <div>
+                    <input className="inputStl" type="text" name="username" placeholder="change your name" onChange={this.handleChange} value={this.state.username}/ >
+                    <input className="inputStl" type="text" name="profileImg" placeholder="change your profile image" onChange={this.handleProfileImgChange} value={this.state.profileImg}/ >
+                    <button className="subName">Submit</button>
+                    <a href="#" className="close" onClick={this.toggle.bind(this)} />
+                    <Avatars passHandleAvatar={this.handleAvatar} passAvatars={this.props.passAvatars}/>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
-        </form>
       );
     }
 }

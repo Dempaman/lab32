@@ -69,8 +69,6 @@ class Quiz extends React.Component{
     this.addQuestionToState();
     }
 
-
-
   answerCheckOne(e, score){
 
 
@@ -88,7 +86,6 @@ class Quiz extends React.Component{
       firebase.database().ref().child('/users/' + this.props.passUserId).update({ score: this.props.passUserScore - 10});
       console.log("WRONG");
    }
-
 
 
    setTimeout(() => {
@@ -132,7 +129,6 @@ class Quiz extends React.Component{
           </div>
         </div>
       )
-
       }
       </div>
     )
