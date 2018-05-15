@@ -163,6 +163,7 @@ class App extends Component {
           {this.state.user ?
             <div>
               <Nav
+                passUserId={this.state.loggedInUserId}
                 src={this.state.profileImg}
                 onClick={this.logout}>
                 {this.state.name}

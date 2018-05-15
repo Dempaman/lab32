@@ -11,7 +11,7 @@ class Tab extends Component{
 
     this.tabList = {
       tab1:{
-        label: 'Tab One',
+        label: 'Profile',
         content: "Profile"
       },
 
@@ -21,7 +21,7 @@ class Tab extends Component{
       }, */
 
       tab3:{
-        label: 'Tab Three',
+        label: 'Quiz',
         content: "Quiz"
       },
     };

@@ -37,10 +37,10 @@ class Nav extends React.Component{
   handleSubmit(event) {
     let db = firebase.database()
     event.preventDefault();
-    db.ref('users/' + this.props.passUserInfo).update({
+    db.ref('users/' + this.props.passUserId).update({
       'name': this.state.username,
     });
-    console.log(this.props.passUserInfo)
+    console.log(this.props.passUserId)
   }
 
 
