@@ -194,7 +194,7 @@ class App extends Component {
         :
           <LoginModal passLogin={this.login} />
         }
-        <button className="toggleHighscore" onClick={this.toggle.bind(this)}>Highscore</button>                                                                         {/**  End of containerLoggedIn **/}
+        <button className="toggleHighscore" onClick={this.toggle.bind(this)}>Highscore</button>   {/**  End of containerLoggedIn **/}
       </div>
     );
   }
