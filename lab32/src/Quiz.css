@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
 .containerQuiz{
   margin: 50px 0 0 0;
   width: 100%;
@@ -8,27 +10,58 @@
 }
 
 .quizHolder{
-  width: 35%;
+  width: 500px;
   height: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f7f7f7;
+  color: white;
+  border-radius: 5px;
+  font-family: 'Open Sans';
+  background-color: green;
+  -webkit-box-shadow: 10px 10px 37px -17px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 10px 37px -17px rgba(0,0,0,0.75);
+  box-shadow: 10px 10px 37px -17px rgba(0,0,0,0.75);
 }
 
 /*** QUESTIONS ***/
+
+.questionText{
+  width: 95%;
+  font-size: 20px;
+}
 .containerQuestion{
+  display: flex;
+  justify-content: center;
   text-align: center;
   width: 100%;
-  height: 250px;
+  height: 200px;
+  margin: 50px 0 0 0;
   background-color: transparent;
 }
+.quizDone{
+  color: white;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 50%;
+  height: 100px;
+  font-family: 'Open Sans';
 
+}
+.quizDone h1{
+  margin: 0;
+  letter-spacing: 1px;
+}
+.quizDone p{
+  margin: 0;
+  font-size: 20px;
+}
 .containerAnswers{
 
   background-color: transparent;
   width: 100%;
-  height: 270px;
+  height: 0px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -36,15 +69,19 @@
 .containerAlternative{
   color: white;
   text-align: center;
-  width: 90%;
+  width: 60%;
   margin: 5px 0 10px 0;
   height: 50px;
-  background-color: deepskyblue;
-  border-radius: 20px;
+  -webkit-transition: width 0.7s;
+   -moz-transition:  width 0.7s;
+     -o-transition:  width 0.7s;
+        transition:  width 0.7s;
+  border-bottom: 1px solid orange;
 }
 
 .containerAlternative:hover{
-  background-color: #83d4f6;
+  width: 90%;
+  /*background-color: #f8f8f84d;*/
   cursor: pointer;
 }
 
@@ -53,17 +90,50 @@
   height: 150px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .containerButtonOption button{
+  font-family: 'Open Sans';
+  font-size: 17px;
+  letter-spacing: 1px;
   color: white;
   height: 35px;
+  width: 200px;
   border: none;
   outline: none;
-  border-radius: 5px;
-  -webkit-box-shadow: 10px 10px 37px -17px rgba(0,0,0,0.75);
-  -moz-box-shadow: 10px 10px 37px -17px rgba(0,0,0,0.75);
-  box-shadow: 10px 10px 37px -17px rgba(0,0,0,0.75);
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffa84c), color-stop(100%, #ff7b0d));
+  cursor: pointer;
+  border-bottom: 1px solid orange;
+  border-radius: 2px;
+  background-color: transparent;
+  margin: 15px 0 0 0;
+  -webkit-transition: width 0.7s;
+   -moz-transition:  width 0.7s;
+     -o-transition:  width 0.7s;
+        transition:  width 0.7s;
+}
+
+
+.containerButtonOption button:hover{
+  width: 250px;
+}
+
+.containerHead{
+  font-family: 'Open Sans';
+  display: flex;
+  justify-content: space-between;
+  height: 75px;
+  border-bottom: 1px solid orange;
+  width: 100%;
+  margin: 0;
+}
+.containerHead h1{
+  font-family: 'Open Sans';
   margin: 10px 0 0 0;
+}
+.containerHead p{
+  width: 100px;
+  font-family: 'Open Sans';
+  margin: 20px;
+  font-size: 17px;
 }
