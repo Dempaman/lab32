@@ -16,9 +16,11 @@ class Quiz extends React.Component{
       currentScore: 0,
       time: {},
       seconds: 30,
-      comboCheck: 0
+      comboCheck: 0,
+      play: true
     }
     this.timer = 0;
+    this.errorSound = new Audio('http://soundbible.com/grab.php?id=669&type=mp3');
 
     this.answerCheckOne = this.answerCheckOne.bind(this);
     this.addQuestionToState = this.addQuestionToState.bind(this);
@@ -27,6 +29,7 @@ class Quiz extends React.Component{
     this.chooseHtml = this.chooseHtml.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.countDown = this.countDown.bind(this);
+    this.handleOnOff = this.handleOnOff.bind(this);
 
   }
 
@@ -102,6 +105,7 @@ class Quiz extends React.Component{
       this.setState({currentScore: this.state.currentScore - 10})
       this.setState({comboCheck: 0})
       firebase.database().ref().child('/users/' + this.props.passUserId).update({ score: this.props.passUserScore - 10});
+      this.handlePlay();
       console.log("WRONG");
    }
 
@@ -165,6 +169,16 @@ class Quiz extends React.Component{
     }
   }
 
+  handlePlay() {
+    if(this.state.play)
+    this.errorSound.play()
+    console.log(this.state.play)
+  }
+
+  handleOnOff() {
+    this.setState({ play: !this.state.play });
+    console.log(this.state.play)
+  }
 
   render(){
     return(
@@ -180,9 +194,11 @@ class Quiz extends React.Component{
           <div className="containerHead">
             <p>Time: {this.state.time.s}</p>
             <h1>Quiz</h1>
+      
             <p>Score: {this.state.currentScore}</p>
           </div>
           <Question>
+          <button className="muteBtn" onClick={this.handleOnOff}>{this.state.play ? 'Mute Off' : 'Mute On'}</button>
             {this.state.question.length > 0? <p className="questionText">{this.state.question[this.state.currentIndex].question.statement}</p> : null}
           </Question>
           <div className="containerAnswers">

@@ -25,7 +25,14 @@
 }
 
 /*** QUESTIONS ***/
-
+.muteBtn{
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: white;
+  margin: -100px 0 50px 0;
+}
 .questionText{
   width: 95%;
   font-size: 20px;
@@ -33,6 +40,7 @@
 .containerQuestion{
   display: flex;
   justify-content: center;
+  flex-direction: column;
   text-align: center;
   width: 100%;
   height: 200px;
