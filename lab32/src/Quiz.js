@@ -74,7 +74,10 @@ class Quiz extends React.Component{
     this.addQuestionToState();
     let timeLeftVar = this.secondsToTime(this.state.seconds);
     this.setState({ time: timeLeftVar });
-    console.log("timeLeftVar",timeLeftVar)
+    }
+
+    componentWillUnmount(){
+      clearInterval(this.timer);
     }
 
 
