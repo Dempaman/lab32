@@ -163,7 +163,6 @@ class Quiz extends React.Component{
       firebase.database().ref().child('/users/' + this.props.passUserId).update({ score: this.props.passUserScore - 10});
       console.log("WRONG");
       this.resetAndIncreaseIndex();
-      console.log(this.state.currentIndex)
     }else if (this.state.currentIndex === this.state.numberOfQuestions) {
       clearInterval(this.timer);
     }
@@ -172,12 +171,10 @@ class Quiz extends React.Component{
   handlePlay() {
     if(this.state.play)
     this.errorSound.play()
-    console.log(this.state.play)
   }
 
   handleOnOff() {
     this.setState({ play: !this.state.play });
-    console.log(this.state.play)
   }
 
   render(){
