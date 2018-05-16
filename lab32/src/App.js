@@ -85,7 +85,6 @@ class App extends Component {
         users.push(child.val());
       });
       this.setState({AllUsers: users});
-      console.log("this.state.AllUsers", this.state.AllUsers)
       }.bind(this));
   }
 
@@ -107,13 +106,11 @@ class App extends Component {
         user.push(child.val());
       });
       let findUser = user.find(item => item.uniqueID === this.state.loggedInUserId );
-      console.log(findUser.name)
 
       this.setState({loggedInUser: user});
       this.setState({name: findUser.name });
       this.setState({profileImg: findUser.img})
       this.setState({userScore: findUser.score})
-      console.log("this.state.loggedInUser", user)
       }.bind(this));
   }
 
@@ -128,7 +125,6 @@ class App extends Component {
         firebase.database().ref().child('/users/' + this.state.user.uid).once('value').then(function(snapshot) {  //Takes a snapshot of the database and prints the username if there is someone logged in
           let snap = snapshot.val()
           if(snap){
-            console.log('Välkommen: ', snap.name)
             this.setState({name: snap.name})
             this.setState({profileImg: snap.img})
             this.setState({userScore: snap.score})
@@ -139,7 +135,6 @@ class App extends Component {
 
         firebase.database().ref('/users/' + this.state.loggedInUserId).on('child_changed',function(snapshot) {//Takes a snapshot of the database if triggered and changes your profile name on the website
          let snap = snapshot.val()
-         console.log('Välkommen: ', snap);
          this.updateLoggedInUserInfo()
        }.bind(this))
 
