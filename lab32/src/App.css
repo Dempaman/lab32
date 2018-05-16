@@ -87,3 +87,8 @@ background-size: auto;
 .hide{
   display: none;
 }
+
+.alighItems{
+  display: flex;
+  align-items: center;
+}

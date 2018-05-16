@@ -61,7 +61,7 @@ class App extends Component {
       snapshot.forEach(function(child) {
         listt.push(child.val().uniqueID);
       });
-      console.log("listt ",listt)
+      //console.log("listt ",listt
 
       if(listt.includes(this.state.user.uid)){
         console.log("User already in database");
@@ -134,7 +134,6 @@ class App extends Component {
         }.bind(this));
 
         firebase.database().ref('/users/' + this.state.loggedInUserId).on('child_changed',function(snapshot) {//Takes a snapshot of the database if triggered and changes your profile name on the website
-         let snap = snapshot.val()
          this.updateLoggedInUserInfo()
        }.bind(this))
 
@@ -168,7 +167,7 @@ class App extends Component {
               </div>
             </div>
           :
-            <div>
+            <div className="alighItems">
               <button className="buttonLog" onClick={this.login}>Log In</button>
             </div>
           }                                                                               {/**  Checks if user is logged in or not **/}
