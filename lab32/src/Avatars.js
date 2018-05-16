@@ -12,7 +12,7 @@ class Avatars extends React.Component {
 
   	return (
         <div>
-          <h2>Select Avatar</h2>
+          <h2 className="SelectAvatarTxt">Select Avatar</h2>
           <div className="containerAvatar">{listAvatars}</div>
         </div>
   	)

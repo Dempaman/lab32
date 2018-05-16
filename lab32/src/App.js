@@ -153,16 +153,20 @@ class App extends Component {
 
     return (
       <div>
-        <div className={this.state.hide}>
-          <Preloading />
-        </div>
+
         <div className="containerLoggedIn">
           {this.state.user ?
-            <Nav
-              src={this.state.profileImg}
-              onClick={this.logout}>
-              {this.state.name}
-            </Nav>
+            <div>
+              <Nav
+                passUserId={this.state.loggedInUserId}
+                src={this.state.profileImg}
+                onClick={this.logout}>
+                {this.state.name}
+              </Nav>
+              <div className={this.state.hide}>
+                <Preloading />
+              </div>
+            </div>
           :
             <div>
               <button className="buttonLog" onClick={this.login}>Log In</button>
@@ -185,7 +189,7 @@ class App extends Component {
         :
           <LoginModal passLogin={this.login} />
         }
-        <button className="toggleHighscore" onClick={this.toggle.bind(this)}>Highscore</button>                                                                         {/**  End of containerLoggedIn **/}
+        <button className="toggleHighscore" onClick={this.toggle.bind(this)}>Highscore</button>   {/**  End of containerLoggedIn **/}
       </div>
     );
   }

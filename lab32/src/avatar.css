@@ -33,3 +33,7 @@
   -webkit-filter: grayscale(80%); /* Safari 6.0 - 9.0 */
   filter: grayscale(80%);
 }
+
+.SelectAvatarTxt{
+  margin: 10px 0 0 0;
+}

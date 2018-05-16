@@ -12,13 +12,15 @@ class Quiz extends React.Component{
       question: [],
       numberOfQuestions: 5,
       currentIndex: 0,
-      bgColor: "white",
+      bgColor: "#2773bd",
       currentScore: 0,
       time: {},
       seconds: 30,
-      comboCheck: 0
+      comboCheck: 0,
+      play: true
     }
     this.timer = 0;
+    this.errorSound = new Audio('http://soundbible.com/grab.php?id=669&type=mp3');
 
     this.answerCheckOne = this.answerCheckOne.bind(this);
     this.addQuestionToState = this.addQuestionToState.bind(this);
@@ -27,6 +29,7 @@ class Quiz extends React.Component{
     this.chooseHtml = this.chooseHtml.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.countDown = this.countDown.bind(this);
+    this.handleOnOff = this.handleOnOff.bind(this);
 
   }
 
@@ -74,7 +77,10 @@ class Quiz extends React.Component{
     this.addQuestionToState();
     let timeLeftVar = this.secondsToTime(this.state.seconds);
     this.setState({ time: timeLeftVar });
-    console.log("timeLeftVar",timeLeftVar)
+    }
+
+    componentWillUnmount(){
+      clearInterval(this.timer);
     }
 
 
@@ -86,7 +92,7 @@ class Quiz extends React.Component{
     if ( answer === correctAnswer ) {
       console.log("CORRECT");
       this.setState({comboCheck: this.state.comboCheck + 1})
-      this.setState({bgColor: "green"})
+      this.setState({bgColor: "limegreen"})
         if(this.state.comboCheck >= 3){ // IF COMBO THEN USER GETS 15 POINTS
           this.setState({currentScore: this.state.currentScore + 15})
           firebase.database().ref().child('/users/' + this.props.passUserId).update({ score: this.props.passUserScore + 15});
@@ -95,10 +101,11 @@ class Quiz extends React.Component{
           firebase.database().ref().child('/users/' + this.props.passUserId).update({ score: this.props.passUserScore + 10});
         }
     } else {
-      this.setState({bgColor: "red"})
+      this.setState({bgColor: "crimson"})
       this.setState({currentScore: this.state.currentScore - 10})
       this.setState({comboCheck: 0})
       firebase.database().ref().child('/users/' + this.props.passUserId).update({ score: this.props.passUserScore - 10});
+      this.handlePlay();
       console.log("WRONG");
    }
 
@@ -110,7 +117,7 @@ class Quiz extends React.Component{
    setTimeout(() => {
            this.setState({
            currentIndex: this.state.currentIndex + 1,
-           bgColor: "white",
+           bgColor: "#2773bd",
            seconds: 30,
            time: this.secondsToTime(this.state.seconds)
          })
@@ -156,12 +163,19 @@ class Quiz extends React.Component{
       firebase.database().ref().child('/users/' + this.props.passUserId).update({ score: this.props.passUserScore - 10});
       console.log("WRONG");
       this.resetAndIncreaseIndex();
-      console.log(this.state.currentIndex)
     }else if (this.state.currentIndex === this.state.numberOfQuestions) {
       clearInterval(this.timer);
     }
   }
 
+  handlePlay() {
+    if(this.state.play)
+    this.errorSound.play()
+  }
+
+  handleOnOff() {
+    this.setState({ play: !this.state.play });
+  }
 
   render(){
     return(
@@ -172,13 +186,17 @@ class Quiz extends React.Component{
       optionMath={this.chooseCss}
       optionHtml={this.chooseHtml} />
       :
-      (this.state.currentIndex === this.state.numberOfQuestions? <h1>DONE!<br/><p>Score: {this.state.currentScore}</p></h1> :
+      (this.state.currentIndex === this.state.numberOfQuestions? <div className="quizDone"><h1>DONE!</h1><br/><p>Score: {this.state.currentScore}</p></div> :
       <div className="quizHolder" style={{backgroundColor: this.state.bgColor}}>
-          <div>s: {this.state.time.s}</div>
-          <h1>Quiz</h1>
-          <p>{this.state.currentScore}</p>
+          <div className="containerHead">
+            <p>Time: {this.state.time.s}</p>
+            <h1>Quiz</h1>
+      
+            <p>Score: {this.state.currentScore}</p>
+          </div>
           <Question>
-            {this.state.question.length > 0? <h3>{this.state.question[this.state.currentIndex].question.statement}</h3> : null}
+          <button className="muteBtn" onClick={this.handleOnOff}>{this.state.play ? 'Mute Off' : 'Mute On'}</button>
+            {this.state.question.length > 0? <p className="questionText">{this.state.question[this.state.currentIndex].question.statement}</p> : null}
           </Question>
           <div className="containerAnswers">
             <Alternative check={this.answerCheckOne}>
